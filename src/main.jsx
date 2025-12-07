@@ -3,16 +3,16 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { RouterProvider } from "react-router/dom";
-import PrivateRoute from './Provider/PrivateRoute.jsx';
 import { ToastContainer } from 'react-toastify';
 import { router } from './Router/Router.jsx';
+import Authprovider from './Provider/AuthProvider.jsx';
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <PrivateRoute>
+    <Authprovider>
        <RouterProvider router={router} />
-    </PrivateRoute>
+    </Authprovider>
     <ToastContainer></ToastContainer>
   </StrictMode>,
 )
