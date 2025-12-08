@@ -6,13 +6,13 @@ import { ToastContainer } from 'react-toastify';
 
 const AuthLayout = () => {
     return (
-        <div className='min-h-screen flex flex-col'>
+        <div className='min-h-screen flex flex-col '>
             <header >
 
                 <Navbar></Navbar>
 
             </header>
-            <main className='w-11/12 mx-auto py-5 flex-1 '>
+            <main className='container px-4 sm:px-6 lg:px-8 mx-auto  flex-1 sm:pt-20 '>
                 <Outlet></Outlet>
             </main>
             <footer >
