@@ -103,7 +103,7 @@ const Navbar = () => {
 
                     {/* Logo */}
                     <Link to="/" className="text-teal-600 flex items-center text-xl font-bold">
-                        <img src={logo} alt="Logo" className="w-10 h-10 mr-1" /> <span className='text-teal-600 text-2xl'>TicketBari</span>
+                        <img src={logo} alt="Logo" className="w-9 h-9 mr-1 rounded-lg" /> <span className='text-teal-600 text-2xl'>TicketBari</span>
                     </Link>
                 </div>
 
@@ -225,6 +225,12 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div className="flex justify-center items-center gap-2 shrink-0">
+                         <input
+                            type="checkbox"
+                            value="synthwave"
+                            className="toggle theme-controller"
+                            onChange={handleThemeToggle}
+                        />
                         <MotionLink
 
                             to="/auth/login"
@@ -242,12 +248,7 @@ const Navbar = () => {
                         >
                             Register
                         </MotionLink>
-                        <input
-                            type="checkbox"
-                            value="synthwave"
-                            className="toggle theme-controller fixed -right-0.5 top-5 z-9999"
-                            onChange={handleThemeToggle}
-                        />
+                       
                     </div>
                 )}
             </div>
