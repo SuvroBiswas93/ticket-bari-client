@@ -1,6 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import HomeLayout from "../Layouts/HomeLayout";
 import Home from "../Pages/Home/Home";
+import Login from "../Pages/Auth/Login";
+import PrivateRoute from "../Provider/PrivateRoute";
+import Register from "../Pages/Auth/Register";
+import AuthLayout from "../Layouts/AuthLayout";
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +17,21 @@ export const router = createBrowserRouter([
       },
       {
         path:'/all-tickets',
-      }
+      },
     ]
   },
+  {
+    path:'/auth',
+    element:<AuthLayout></AuthLayout>,
+    children:[
+      {
+        path:'/auth/login',
+        element:<Login></Login>
+      },
+      {
+        path:'/auth/register',
+        element:<Register></Register>
+      }
+    ]
+  }
 ]);
