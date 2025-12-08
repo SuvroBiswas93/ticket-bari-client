@@ -12,7 +12,7 @@ const Footer = () => {
      const currentYear = new Date().getFullYear()
     return (
         <footer className="bg-slate-900 dark:bg-black text-white mt-20 border-t border-slate-700">
-            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                     {/* Brand */}
                     <Link to='/'>
