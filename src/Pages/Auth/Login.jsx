@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import logo from "../../assets/ticket-bari.jpg";
-import banner from "../../assets/ticket.avif";
+import banner from "../../assets/Login.jpg";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { useForm } from "react-hook-form";
 
@@ -75,7 +75,7 @@ const Login = () => {
                                 type="email"
                                 {...register('email', { required: true,minLength:6, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
                                 placeholder="Enter your email"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none "
 
                             />
 
@@ -95,7 +95,7 @@ const Login = () => {
                                     type={showPassword ? "text" : "password"}
                                     {...register('password', { required: true,
                                      minLength: 6, 
-                                     pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/ })}
+                                     pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/ })}
                                     placeholder="Enter your password"
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
 
@@ -109,7 +109,7 @@ const Login = () => {
                                     </p>
                                 }
                                 {
-                                    errors.password?.type === 'pattern' && <p className='text-red-500'>Password must have at least one uppercase, at least one lowercase, at least one number, and at least one special characters</p>
+                                    errors.password?.type === 'pattern' && <p className='text-red-500'>Password must have at least one uppercase, one lowercase, and at least 6 characters</p>
                                 }
 
                                 <button

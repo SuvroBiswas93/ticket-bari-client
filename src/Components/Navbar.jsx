@@ -95,7 +95,7 @@ const Navbar = () => {
                                             My Services
                                         </NavLink>
                                     </li>
-                                  
+
                                 </>)
                             }
                         </ul>
@@ -123,7 +123,7 @@ const Navbar = () => {
                                 className={({ isActive }) =>
                                     isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
                                 }>
-                               All Tickets
+                                All Tickets
                             </NavLink>
                         </li>
 
@@ -193,10 +193,15 @@ const Navbar = () => {
                             </li>
 
                             <li>
-                                <NavLink to="/my-profile"
+                                <NavLink
+                                    to="/my-profile"
                                     className={({ isActive }) =>
-                                        isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                    }>
+                                        `block text-center py-1 px-2 rounded ${isActive
+                                            ? 'text-teal-600 border-b-2 border-teal-600 font-bold'
+                                            : 'text-gray-700 hover:text-teal-600 dark:bg-white'
+                                        }`
+                                    }
+                                >
                                     My Profile
                                 </NavLink>
                             </li>
@@ -225,7 +230,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div className="flex justify-center items-center gap-2 shrink-0">
-                         <input
+                        <input
                             type="checkbox"
                             value="synthwave"
                             className="toggle theme-controller"
@@ -248,7 +253,7 @@ const Navbar = () => {
                         >
                             Register
                         </MotionLink>
-                       
+
                     </div>
                 )}
             </div>
