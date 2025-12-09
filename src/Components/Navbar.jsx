@@ -16,7 +16,7 @@ const Navbar = () => {
         localStorage.getItem("theme") === "light" ? "light" : "dark"
     );
     useEffect(() => {
-        
+
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
 
@@ -68,6 +68,14 @@ const Navbar = () => {
                                         isActive ? 'text-teal-600 font-semibold' : ''
                                     }>
                                     All Tickets
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/Dashboard"
+                                    className={({ isActive }) =>
+                                        isActive ? 'text-teal-600 font-semibold' : ''
+                                    }>
+                                   Dashboard
                                 </NavLink>
                             </li>
 
@@ -128,6 +136,14 @@ const Navbar = () => {
                                 All Tickets
                             </NavLink>
                         </li>
+                        <li>
+                                <NavLink to="/Dashboard"
+                                    className={({ isActive }) =>
+                                        isActive ? 'text-teal-600 font-semibold' : ''
+                                    }>
+                                   Dashboard
+                                </NavLink>
+                            </li>
 
 
                         {/* when user login the navabar should contains */}

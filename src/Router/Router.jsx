@@ -6,6 +6,7 @@ import PrivateRoute from "../Provider/PrivateRoute";
 import Register from "../Pages/Auth/Register";
 import AuthLayout from "../Layouts/AuthLayout";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
+import Dashboard from "../dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,20 @@ export const router = createBrowserRouter([
         path:'/auth/register',
         element:<Register></Register>
       }
+    ]
+  },
+  {
+    path:'/Dashboard',
+    element:<Dashboard></Dashboard>,
+    children:[
+      // {
+      //   path:'/auth/login',
+      //   element:<Login></Login>
+      // },
+      // {
+      //   path:'/auth/register',
+      //   element:<Register></Register>
+      // }
     ]
   }
 ]);
