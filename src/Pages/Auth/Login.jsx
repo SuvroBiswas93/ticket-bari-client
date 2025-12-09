@@ -75,7 +75,7 @@ const Login = () => {
                                 type="email"
                                 {...register('email', { required: true,minLength:6, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
                                 placeholder="Enter your email"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none "
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
 
                             />
 
@@ -97,7 +97,7 @@ const Login = () => {
                                      minLength: 6, 
                                      pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/ })}
                                     placeholder="Enter your password"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
 
                                 />
                                 {

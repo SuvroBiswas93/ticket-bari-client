@@ -82,7 +82,7 @@ const Register = () => {
                 type="text"
                 placeholder="Enter your full name"
                 {...register("name", { required: true, minLength: 5 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
               />
               {errors.name?.type === "required" && (
                 <p className="text-red-500 text-xs mt-1">Name is required.</p>
@@ -103,7 +103,7 @@ const Register = () => {
                 type="text"
                 placeholder="Enter your photo URL"
                 {...register("photo", { required: true })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
               />
               {errors.photo && (
                 <p className="text-red-500 text-xs mt-1">Photo URL is required.</p>
@@ -122,7 +122,7 @@ const Register = () => {
                   required: true,
                   pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
               />
               {errors.email?.type === "required" && (
                 <p className="text-red-500 text-xs mt-1">Email is required.</p>
@@ -147,7 +147,7 @@ const Register = () => {
                     required: true,
                     pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
                   })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
                 />
                 <button
                   type="button"

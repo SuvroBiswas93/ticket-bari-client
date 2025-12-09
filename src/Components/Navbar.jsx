@@ -13,11 +13,13 @@ const Navbar = () => {
 
     // Theme Toggling
     const [theme, setTheme] = useState(
-        localStorage.getItem("theme") || "light"
+        localStorage.getItem("theme") === "light" ? "light" : "dark"
     );
     useEffect(() => {
+        
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
+
     }, [theme]);
 
     const handleThemeToggle = (e) => {
@@ -232,9 +234,9 @@ const Navbar = () => {
                     <div className="flex justify-center items-center gap-2 shrink-0">
                         <input
                             type="checkbox"
-                            value="synthwave"
-                            className="toggle theme-controller"
+                            checked={theme === "dark"}
                             onChange={handleThemeToggle}
+                            className="toggle p-1 toggle-success bg-gray-300 border-gray-400 checked:bg-indigo-600 checked:border-indigo-600 transition-all duration-300 scale-110"
                         />
                         <MotionLink
 

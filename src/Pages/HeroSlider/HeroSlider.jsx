@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 
 const HeroSlider = () => {
     return (
-        <div className="w-full h-[50vh] md:h-[70vh] lg:h-[80vh]">
+        <div className="w-full h-[50vh] md:h-[80vh] lg:h-[90vh] ">
           <Swiper
             navigation={true}
             autoplay={{

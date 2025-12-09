@@ -5,6 +5,7 @@ import Login from "../Pages/Auth/Login";
 import PrivateRoute from "../Provider/PrivateRoute";
 import Register from "../Pages/Auth/Register";
 import AuthLayout from "../Layouts/AuthLayout";
+import ForgotPassword from "../Pages/Auth/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path:'/all-tickets',
       },
+      {
+        path:'/forgot-password',
+        element: <ForgotPassword></ForgotPassword>
+      }
     ]
   },
   {
