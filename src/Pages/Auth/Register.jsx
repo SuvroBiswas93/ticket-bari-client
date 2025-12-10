@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import banner from "../../assets/Register.jpg"; 
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Register = () => {
   const { createUser, updateUser, googleLogin } = useContext(AuthContext);
@@ -19,20 +20,39 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const axiosSecure = useAxiosSecure();
+
   const onSubmit = (data) => {
     setLoading(true);
+
     createUser(data.email, data.password)
       .then((result) => {
         console.log(result)
-        updateUser({ displayName: data.name, photoURL: data.photo })
-          .then(() => {
-            toast.success("Registration Successful! Welcome!");
-            navigate("/");
-          })
-          .catch((err) => {
-            console.log(err);
-            toast.error("Failed to update user info");
-          });
+        updateUser({
+          displayName: data.name,
+          photoURL: data.photo
+        })
+        .then(() => {
+
+          // now send to database
+          const userInfo = {
+            email: data.email,
+            displayName: data.name,
+            photoURL: data.photo,
+            role: "user"
+          };
+
+          axiosSecure.post('/users', userInfo)
+            .then(res => {
+              if (res.data.insertedId) {
+                toast.success('User created in DB!');
+              }
+            })
+
+          toast.success("Registration Successful!");
+          navigate("/");
+        })
+        .catch(() => toast.error("Failed to update user"));
       })
       .catch((error) => toast.error(error.message))
       .finally(() => setLoading(false));
@@ -50,6 +70,9 @@ const Register = () => {
       setLoading(false);
     }
   };
+
+   
+
 
   // monngodb
 
