@@ -7,11 +7,13 @@ import Register from "../Pages/Auth/Register";
 import AuthLayout from "../Layouts/AuthLayout";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import Dashboard from "../dashboard/Dashboard";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout></HomeLayout>,
+    errorElement:<ErrorPage></ErrorPage>,
     children:[
       {
         path:'/',
@@ -29,6 +31,7 @@ export const router = createBrowserRouter([
   {
     path:'/auth',
     element:<AuthLayout></AuthLayout>,
+    errorElement:<ErrorPage></ErrorPage>,
     children:[
       {
         path:'/auth/login',
@@ -43,6 +46,7 @@ export const router = createBrowserRouter([
   {
     path:'/Dashboard',
     element:<Dashboard></Dashboard>,
+    errorElement:<ErrorPage></ErrorPage>,
     children:[
       // {
       //   path:'/auth/login',
