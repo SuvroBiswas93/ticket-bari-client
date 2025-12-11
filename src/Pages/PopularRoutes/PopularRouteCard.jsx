@@ -4,7 +4,7 @@ const PopularRouteCard = ({ route }) => {
             <img
                 src={route.image}
                 alt={route.title}
-                className="w-full h-40 object-cover rounded-lg mb-4"
+                className="w-full h-30 object-cover rounded-lg mb-4"
             />
 
             <h2 className="text-xl font-bold mb-1">{route.title}</h2>

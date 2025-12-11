@@ -61,13 +61,62 @@ const PopularRoutes = () => {
             price: 850,
             image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2",
         },
+        {
+            id: 8,
+            title: "Dhaka to Dubai",
+            from: "Dhaka",
+            to: "Dubai",
+            price: 45000,
+            image: "https://images.unsplash.com/photo-1504274066651-8d31a536b11a",
+        },
+        {
+            id: 9,
+            title: "Dhaka to Singapore",
+            from: "Dhaka",
+            to: "Singapore",
+            price: 38000,
+            image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8",
+        },
+        {
+            id: 10,
+            title: "Dhaka to Kuala Lumpur",
+            from: "Dhaka",
+            to: "Kuala Lumpur",
+            price: 32000,
+            image: "https://images.unsplash.com/photo-1509088296860-42b1a6f3e859",
+        },
+        {
+            id: 11,
+            title: "Dhaka to Bangkok",
+            from: "Dhaka",
+            to: "Bangkok",
+            price: 30000,
+            image: "https://images.unsplash.com/photo-1519121782843-184f61660e1a",
+        },
+        {
+            id: 12,
+            title: "Dhaka to London",
+            from: "Dhaka",
+            to: "London",
+            price: 95000,
+            image: "https://images.unsplash.com/photo-1462887749044-b47cb05df2cc",
+        },
+        {
+            id: 13,
+            title: "Dhaka to New York",
+            from: "Dhaka",
+            to: "New York",
+            price: 120000,
+            image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2",
+        }
     ];
 
     const popularRoutes = routes.slice(0, 7);
+    // const popularRoutes = routes;
 
     return (
-        <div className="my-24 ">
-            <div className="text-center mb-16">
+        <div className="my-10 container mx-auto">
+            <div className="text-center mb-10">
                 <h3 className="text-4xl font-bold my-4">Popular Routes</h3>
                 <p className="max-w-2xl mx-auto text-gray-600">
                     Choose from the most frequently booked & highly rated travel routes.
