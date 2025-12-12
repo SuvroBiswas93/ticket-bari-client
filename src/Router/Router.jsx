@@ -7,6 +7,7 @@ import AuthLayout from "../Layouts/AuthLayout";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashboardLayout from "../Layouts/DashboardLayout";
+import PrivateRoute from "../Provider/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +45,9 @@ export const router = createBrowserRouter([
   },
   {
     path:'/dashboard',
-    element:<DashboardLayout></DashboardLayout>,
+    element: <PrivateRoute>
+      <DashboardLayout></DashboardLayout>
+    </PrivateRoute>,
     errorElement:<ErrorPage></ErrorPage>,
     children:[
       

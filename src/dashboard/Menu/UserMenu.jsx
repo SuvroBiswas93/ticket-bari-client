@@ -1,11 +1,28 @@
-import React from 'react';
+import { FaRegUser, FaTicketAlt, FaRegHeart } from "react-icons/fa";
+import MenuItem from "./MenuItem";
 
 const UserMenu = () => {
-    return (
-        <div>
-           this is user Menu 
-        </div>
-    );
+  return (
+    <>
+      <MenuItem 
+        icon={FaRegUser} 
+        label="My Profile" 
+        address="profile" 
+      />
+
+      <MenuItem 
+        icon={FaTicketAlt} 
+        label="My Tickets" 
+        address="my-tickets" 
+      />
+
+      <MenuItem 
+        icon={FaRegHeart} 
+        label="Wishlist" 
+        address="wishlist" 
+      />
+    </>
+  );
 };
 
 export default UserMenu;
