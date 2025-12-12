@@ -71,7 +71,7 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/Dashboard"
+                                <NavLink to="/dashboard"
                                     className={({ isActive }) =>
                                         isActive ? 'text-teal-600 font-semibold' : ''
                                     }>

@@ -1,6 +1,6 @@
 import { use, useState } from 'react'
 import { Link } from 'react-router'
-import logo from '../../../assets/images/logo-flat.png'
+import logo from '../../assets/ticket-bari.jpg'
 // Icons
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
@@ -8,13 +8,14 @@ import { AiOutlineBars } from 'react-icons/ai'
 import { BsGraphUp } from 'react-icons/bs'
 
 // User Menu
-import MenuItem from './Menu/MenuItem'
-import useRole from '../../../hooks/useRole'
+
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner'
 import UserMenu from '../Menu/UserMenu'
 import VendorMenu from '../Menu/VendorMenu'
 import AdminMenu from '../Menu/AdminMenu'
 import { AuthContext } from '../../Provider/AuthProvider'
+import MenuItem from '../Menu/MenuItem'
+import useRole from '../../hooks/useRole'
 
 
 const Sidebar = () => {
@@ -71,11 +72,11 @@ const Sidebar = () => {
             {/*  Menu Items */}
             <nav>
               {/* Common Menu */}
-              <MenuItem
-                icon={BsGraphUp}
+              <MenuItem>
+                'icon={BsGraphUp}
                 label='Statistics'
-                address='/dashboard'
-              />
+                address='/dashboard
+              </MenuItem>
               {/* Role-Based Menu */}
               {role === 'user' && <UserMenu></UserMenu>}
               {role === 'vendor' && <VendorMenu></VendorMenu>}
