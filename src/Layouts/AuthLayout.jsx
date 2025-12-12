@@ -12,7 +12,7 @@ const AuthLayout = () => {
                 <Navbar></Navbar>
 
             </header>
-            <main className='container px-4 sm:px-6 lg:px-8 mx-auto  flex-1 sm:pt-20 '>
+            <main className='container sm:px-6 lg:px-8 mx-auto  flex-1 sm:pt-20 '>
                 <Outlet></Outlet>
             </main>
             <footer >
