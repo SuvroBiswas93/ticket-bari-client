@@ -12,6 +12,9 @@ import Profile from "../dashboard/Pages/Common/Profile";
 import VendorRoute from "./VendorRoute";
 import AddTicket from "../dashboard/Pages/Vendor/AddTciket";
 import MyAddedTickets from "../dashboard/Pages/Vendor/MyAddedTickets";
+import Payment from "../dashboard/Payment/Payment";
+import PaymentSuccess from "../dashboard/Payment/PaymentSuccess";
+import PaymentCancelled from "../dashboard/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +88,18 @@ export const router = createBrowserRouter([
             </VendorRoute>
           </PrivateRoute>
         
+      },
+      {
+        path:'/payment/:bookingId',
+        element:<Payment></Payment>
+      },
+      {
+        path:'payment-success',
+        element:<PaymentSuccess></PaymentSuccess>
+      },
+      {
+        path:'Payment-cancelled',
+        element:<PaymentCancelled></PaymentCancelled>
       }
     ]
   }

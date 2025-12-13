@@ -12,10 +12,12 @@ const PaymentCancelled = () => {
         departure time.
       </p>
 
-      <Link to="/dashboard/my-booked-tickets">
-        <button className="px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition">
+      <Link to="/dashboard/my-booked-tickets"
+        className="px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition"
+      >
+        
           Back to My Booked Tickets
-        </button>
+        
       </Link>
     </div>
   );

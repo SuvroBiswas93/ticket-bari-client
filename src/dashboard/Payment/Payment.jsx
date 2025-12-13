@@ -1,4 +1,4 @@
-import React, { , useEffect, useState, useCallback, use } from "react";
+import React, { useEffect, useState, useCallback, use } from "react";
 import { useParams, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -64,7 +64,7 @@ const Payment = () => {
         paymentInfo
       );
 
-      // 🔁 Redirect to Stripe Checkout
+      //  Redirect to Stripe Checkout
       window.location.href = res.data.url;
     } catch (error) {
       console.error(error);
@@ -72,7 +72,7 @@ const Payment = () => {
     }
   };
 
-  // 🔹 Loading UI
+  //  Loading UI
   if (loading || pageLoading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
