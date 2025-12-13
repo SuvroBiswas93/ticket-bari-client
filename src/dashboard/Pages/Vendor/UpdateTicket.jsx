@@ -47,7 +47,7 @@ const UpdateTicket = () => {
     fetchTicket();
   }, [axiosSecure, id, reset, user?.email]);
 
-  // ================= SUBMIT =================
+  // ----------SUBMIT ----------
   const onSubmit = async (data) => {
     if (ticket.status === "approved") {
       toast.error("Approved tickets cannot be updated");
