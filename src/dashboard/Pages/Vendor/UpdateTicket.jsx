@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useParams, Link, useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { imageUpload } from "../../../utils/Index";
@@ -9,38 +10,54 @@ import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 
 const UpdateTicket = () => {
   const { id } = useParams();
-  const { user, loading } = useContext(AuthContext); // use loading from AuthContext
-  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+
+  const { user, loading } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
+
   const [ticket, setTicket] = useState(null);
 
   const { register, handleSubmit, reset } = useForm();
 
   const perksOptions = ["AC", "Breakfast", "WiFi", "Meal"];
-  const locations = ["Dhaka","Chattogram","Sylhet","Rajshahi","Khulna","Barishal","Mymensingh","Rangpur","Kolkata","Delhi","Singapore","Dubai"];
+  const locations = ["Dhaka", "Chattogram", "Sylhet", "Rajshahi", "Khulna", "Barishal", "Mymensingh", "Rangpur", "Kolkata", "Delhi", "Singapore", "Dubai"];
 
-  // Fetch ticket data
- useEffect(() => {
-  if (!user?.email) return;
+  //  FETCH TICKET ----------
+  useEffect(() => {
+    if (!user?.email) return;
 
-  const fetchData = async () => {
-    try {
-      const res = await axiosSecure.get(`/tickets/${id}`);
-      setTicket(res.data);       
-      reset(res.data);           
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load ticket data");
-    }
-  };
+    const fetchTicket = async () => {
+      try {
+        const res = await axiosSecure.get(`/tickets/${id}`);
+        setTicket(res.data);
 
-  fetchData();
-}, [user?.email, axiosSecure, id, reset]);
+        // Pre-fill form safely
+        reset({
+          ...res.data,
+          departureTime: new Date(res.data.departureTime)
+            .toISOString()
+            .slice(0, 16),
+        });
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load ticket data");
+      }
+    };
 
+    fetchTicket();
+  }, [axiosSecure, id, reset, user?.email]);
+
+  // ================= SUBMIT =================
   const onSubmit = async (data) => {
+    if (ticket.status === "approved") {
+      toast.error("Approved tickets cannot be updated");
+      return;
+    }
+
     try {
-      // Handle image upload if new file selected
       let imageUrl = ticket.image;
+
+      // Upload new image if selected
       if (data.image && data.image[0]) {
         imageUrl = await imageUpload(data.image[0]);
       }
@@ -55,36 +72,40 @@ const UpdateTicket = () => {
 
       await axiosSecure.put(`/tickets/${id}`, updatedTicket);
       toast.success("Ticket updated successfully");
-      navigate("/dashboard/my-added-tickets");
-    } catch (err) {
-      console.error(err);
+
+      //  Go back to previous page
+      navigate(-1);
+    } catch (error) {
+      console.error(error);
       toast.error("Failed to update ticket");
     }
   };
 
-  if (loading || !ticket) return <LoadingSpinner />;
+  //-------------------LOADING----------------
+  if (loading || !ticket) {
+    return <LoadingSpinner />;
+  }
 
+  const isDisabled = ticket.status === "approved" || ticket.status === "rejected";
+
+  // ------ UI -----------
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-teal-700">Update Ticket</h2>
-        <Link
-          to="/dashboard/my-added-tickets"
-          className="py-2 px-4 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
-        >
-          Back
-        </Link>
-      </div>
+      <h2 className="text-2xl font-bold text-teal-700 mb-6">
+        Update Ticket
+      </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 bg-white p-6 rounded shadow">
-        {/* Ticket Title */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4 bg-white p-6 rounded shadow"
+      >
+        {/* Title */}
         <div>
           <label className="block font-medium">Ticket Title</label>
           <input
-            type="text"
             {...register("title", { required: true })}
             className="w-full px-3 py-2 border rounded"
-            disabled={ticket.status === "rejected"}
+            disabled={isDisabled}
           />
         </div>
 
@@ -95,7 +116,7 @@ const UpdateTicket = () => {
             <select
               {...register("from", { required: true })}
               className="w-full px-3 py-2 border rounded"
-              disabled={ticket.status === "rejected"}
+              disabled={isDisabled}
             >
               {locations.map((loc) => (
                 <option key={loc} value={loc}>
@@ -104,12 +125,13 @@ const UpdateTicket = () => {
               ))}
             </select>
           </div>
+
           <div className="flex-1">
             <label className="block font-medium">To</label>
             <select
               {...register("to", { required: true })}
               className="w-full px-3 py-2 border rounded"
-              disabled={ticket.status === "rejected"}
+              disabled={isDisabled}
             >
               {locations.map((loc) => (
                 <option key={loc} value={loc}>
@@ -120,48 +142,47 @@ const UpdateTicket = () => {
           </div>
         </div>
 
-        {/* Transport Type */}
+        {/* Transport */}
         <div>
           <label className="block font-medium">Transport Type</label>
           <input
-            type="text"
             {...register("transportType", { required: true })}
             className="w-full px-3 py-2 border rounded"
-            disabled={ticket.status === "rejected"}
+            disabled={isDisabled}
           />
         </div>
 
         {/* Price & Quantity */}
         <div className="flex gap-4">
           <div className="flex-1">
-            <label className="block font-medium">Price (per unit)</label>
+            <label className="block font-medium">Price</label>
             <input
               type="number"
               {...register("price", { required: true })}
               className="w-full px-3 py-2 border rounded"
-              disabled={ticket.status === "rejected"}
+              disabled={isDisabled}
             />
           </div>
+
           <div className="flex-1">
-            <label className="block font-medium">Ticket Quantity</label>
+            <label className="block font-medium">Quantity</label>
             <input
               type="number"
               {...register("quantity", { required: true })}
               className="w-full px-3 py-2 border rounded"
-              disabled={ticket.status === "rejected"}
+              disabled={isDisabled}
             />
           </div>
         </div>
 
-        {/* Departure Date & Time */}
+        {/* Departure */}
         <div>
           <label className="block font-medium">Departure Date & Time</label>
           <input
             type="datetime-local"
             {...register("departureTime", { required: true })}
             className="w-full px-3 py-2 border rounded"
-            disabled={ticket.status === "rejected"}
-            defaultValue={new Date(ticket.departureTime).toISOString().slice(0, 16)}
+            disabled={isDisabled}
           />
         </div>
 
@@ -175,8 +196,7 @@ const UpdateTicket = () => {
                   type="checkbox"
                   value={perk}
                   {...register("perks")}
-                  defaultChecked={ticket.perks?.includes(perk)}
-                  disabled={ticket.status === "rejected"}
+                  disabled={isDisabled}
                 />
                 {perk}
               </label>
@@ -184,14 +204,13 @@ const UpdateTicket = () => {
           </div>
         </div>
 
-        {/* Image Upload */}
+        {/* Image */}
         <div>
           <label className="block font-medium">Image</label>
           <input
             type="file"
             {...register("image")}
-            className="w-full"
-            disabled={ticket.status === "rejected"}
+            disabled={isDisabled}
           />
           <img
             src={ticket.image}
@@ -203,26 +222,26 @@ const UpdateTicket = () => {
         {/* Vendor Info */}
         <div className="flex gap-4">
           <input
-            type="text"
             value={ticket.vendorName}
             readOnly
             className="flex-1 px-3 py-2 border rounded bg-gray-100"
           />
           <input
-            type="text"
             value={ticket.vendorEmail}
             readOnly
             className="flex-1 px-3 py-2 border rounded bg-gray-100"
           />
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
-          className={`w-full py-2 px-4 cursor-pointer rounded bg-teal-600 text-white hover:bg-teal-700 transition ${
-            ticket.status === "rejected" ? "opacity-50 cursor-not-allowed" : ""
+          disabled={isDisabled}
+          className={`w-full py-2 rounded bg-teal-600 text-white transition ${
+            isDisabled
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-teal-700"
           }`}
-          disabled={ticket.status === "rejected"}
         >
           Update Ticket
         </button>
