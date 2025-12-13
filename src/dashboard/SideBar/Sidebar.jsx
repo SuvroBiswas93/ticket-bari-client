@@ -35,9 +35,12 @@ const Sidebar = () => {
       {/* Small Screen Navbar, only visible till md breakpoint */}
       <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
         <div>
-          <div className='block cursor-pointer p-4 font-bold'>
+          <div className='block cursor-pointer p-4 font-bold '>
             <Link to='/'>
-              <img src={logo} alt='logo' width='100' height='100' />
+              <div className='flex gap-1'>
+                <img src={logo} alt='logo' className='w-9 h-9 rounded-xl' />
+                <span className='text-3xl text-teal-500 hover:text-teal-700'>Ticketbari </span>
+              </div>
             </Link>
           </div>
         </div>
@@ -52,19 +55,26 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && '-translate-x-full'
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
+          }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
         <div className='flex flex-col h-full'>
           {/* Top Content */}
           <div>
             {/* Logo */}
-            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-lime-100 mx-auto'>
-              <Link to='/'>
-                <img src={logo} alt='logo' width='100' height='100' />
+            <div className='w-full hidden md:flex px-4 py-3 shadow-lg rounded-lg bg-teal-100 mx-auto'>
+              <Link to='/' className='flex items-center gap-2'>
+                <img
+                  src={logo}
+                  alt='logo'
+                  className='w-10 h-10 rounded-xl'
+                />
+                <span className='text-2xl font-bold text-teal-600'>
+                  Ticketbari
+                </span>
               </Link>
             </div>
+
           </div>
 
           {/* Middle Content */}
@@ -72,14 +82,14 @@ const Sidebar = () => {
             {/*  Menu Items */}
             <nav>
               {/* Common Menu */}
-              
-              
-                <MenuItem
-                  icon={BsGraphUp}
+
+
+              <MenuItem
+                icon={BsGraphUp}
                 label='Statistics'
                 address='/dashboard'
-                />
-              
+              />
+
               {/* Role-Based Menu */}
               {role === 'user' && <UserMenu></UserMenu>}
               {role === 'vendor' && <VendorMenu></VendorMenu>}

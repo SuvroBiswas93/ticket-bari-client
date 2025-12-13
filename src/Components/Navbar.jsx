@@ -70,39 +70,16 @@ const Navbar = () => {
                                     All Tickets
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink to="/dashboard"
-                                    className={({ isActive }) =>
-                                        isActive ? 'text-teal-600 font-semibold' : ''
-                                    }>
-                                   Dashboard
-                                </NavLink>
-                            </li>
+
 
                             {
                                 user && (<>
                                     <li>
-                                        <NavLink to="/add-service"
+                                        <NavLink to="/dashboard"
                                             className={({ isActive }) =>
-                                                isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
+                                                isActive ? 'text-teal-600 font-semibold' : ''
                                             }>
-                                            Add Services
-                                        </NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to="/my-bookings"
-                                            className={({ isActive }) =>
-                                                isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                            }>
-                                            My Bookings
-                                        </NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to="/my-services"
-                                            className={({ isActive }) =>
-                                                isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                            }>
-                                            My Services
+                                            Dashboard
                                         </NavLink>
                                     </li>
 
@@ -136,14 +113,7 @@ const Navbar = () => {
                                 All Tickets
                             </NavLink>
                         </li>
-                        <li>
-                                <NavLink to="/Dashboard"
-                                    className={({ isActive }) =>
-                                        isActive ? 'text-teal-600 font-semibold' : ''
-                                    }>
-                                   Dashboard
-                                </NavLink>
-                            </li>
+
 
 
                         {/* when user login the navabar should contains */}
@@ -151,29 +121,14 @@ const Navbar = () => {
                         {
                             user && (<>
                                 <li>
-                                    <NavLink to="/add-service"
+                                    <NavLink to="/Dashboard"
                                         className={({ isActive }) =>
-                                            isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
+                                            isActive ? 'text-teal-600 font-semibold' : ''
                                         }>
-                                        Add Services
+                                        Dashboard
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink to="/my-bookings"
-                                        className={({ isActive }) =>
-                                            isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                        }>
-                                        My Bookings
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/my-services"
-                                        className={({ isActive }) =>
-                                            isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                        }>
-                                        My Services
-                                    </NavLink>
-                                </li>
+                              
 
 
 
