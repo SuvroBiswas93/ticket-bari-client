@@ -9,6 +9,8 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import PrivateRoute from "../Provider/PrivateRoute";
 import Profile from "../dashboard/Pages/Common/Profile";
+import VendorRoute from "./VendorRoute";
+import AddTicket from "../dashboard/Pages/Vendor/AddTciket";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ export const router = createBrowserRouter([
         path:'/profile',
         element:<PrivateRoute>
           <Profile></Profile>
+        </PrivateRoute>
+      },
+      {
+        path:'/add-ticket',
+        element:<PrivateRoute>
+          <VendorRoute>
+            <AddTicket></AddTicket>
+          </VendorRoute>
         </PrivateRoute>
       }
     ]
