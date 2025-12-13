@@ -8,6 +8,7 @@ import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import PrivateRoute from "../Provider/PrivateRoute";
+import Profile from "../dashboard/Pages/Common/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -50,7 +51,12 @@ export const router = createBrowserRouter([
     </PrivateRoute>,
     errorElement:<ErrorPage></ErrorPage>,
     children:[
-      
+      {
+        path:'/profile',
+        element:<PrivateRoute>
+          <Profile></Profile>
+        </PrivateRoute>
+      }
     ]
   }
 ]);
