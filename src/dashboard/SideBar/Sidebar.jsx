@@ -72,11 +72,14 @@ const Sidebar = () => {
             {/*  Menu Items */}
             <nav>
               {/* Common Menu */}
-              <MenuItem>
-                'icon={BsGraphUp}
+              
+              
+                <MenuItem
+                  icon={BsGraphUp}
                 label='Statistics'
-                address='/dashboard
-              </MenuItem>
+                address='/dashboard'
+                />
+              
               {/* Role-Based Menu */}
               {role === 'user' && <UserMenu></UserMenu>}
               {role === 'vendor' && <VendorMenu></VendorMenu>}
