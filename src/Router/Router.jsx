@@ -17,64 +17,74 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout></HomeLayout>,
-    errorElement:<ErrorPage></ErrorPage>,
-    children:[
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
       {
-        path:'/',
-        element:<Home></Home>
+        path: '/',
+        element: <Home></Home>
       },
       {
-        path:'/all-tickets',
+        path: '/all-tickets',
       },
       {
-        path:'/forgot-password',
+        path: '/forgot-password',
         element: <ForgotPassword></ForgotPassword>
       }
     ]
   },
   {
-    path:'/auth',
-    element:<AuthLayout></AuthLayout>,
-    errorElement:<ErrorPage></ErrorPage>,
-    children:[
+    path: '/auth',
+    element: <AuthLayout></AuthLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
       {
-        path:'/auth/login',
-        element:<Login></Login>
+        path: '/auth/login',
+        element: <Login></Login>
       },
       {
-        path:'/auth/register',
-        element:<Register></Register>
+        path: '/auth/register',
+        element: <Register></Register>
       }
     ]
   },
   {
-    path:'/dashboard',
+    path: '/dashboard',
     element: <PrivateRoute>
       <DashboardLayout></DashboardLayout>
     </PrivateRoute>,
-    errorElement:<ErrorPage></ErrorPage>,
-    children:[
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
       {
-        path:'/profile',
-        element:<PrivateRoute>
+        path: '/profile',
+        element: <PrivateRoute>
           <Profile></Profile>
         </PrivateRoute>
       },
       {
-        path:'/add-ticket',
-        element:<PrivateRoute>
+        path: '/add-ticket',
+        element: <PrivateRoute>
           <VendorRoute>
             <AddTicket></AddTicket>
           </VendorRoute>
         </PrivateRoute>
       },
       {
-        path:'/my-added-tickets',
-        element:<PrivateRoute>
+        path: '/my-added-tickets',
+        element: <PrivateRoute>
           <VendorRoute>
             <MyAddedTickets></MyAddedTickets>
           </VendorRoute>
         </PrivateRoute>
+      },
+      {
+        path: '/update-ticket/:id',  
+        element: 
+          <PrivateRoute>
+            <VendorRoute>
+              <UpdateTicket />
+            </VendorRoute>
+          </PrivateRoute>
+        
       }
     ]
   }
