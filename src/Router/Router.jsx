@@ -15,6 +15,7 @@ import MyAddedTickets from "../dashboard/Pages/Vendor/MyAddedTickets";
 import Payment from "../dashboard/Payment/Payment";
 import PaymentSuccess from "../dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../dashboard/Payment/PaymentCancelled";
+import MyBookedTickets from "../dashboard/Pages/User/MyBookedTickets";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +62,12 @@ export const router = createBrowserRouter([
         path: '/profile',
         element: <PrivateRoute>
           <Profile></Profile>
+        </PrivateRoute>
+      },
+      {
+        path:'/my-booked-tickets',
+        element:<PrivateRoute>
+          <MyBookedTickets></MyBookedTickets>
         </PrivateRoute>
       },
       {
