@@ -62,7 +62,7 @@ const Sidebar = () => {
           {/* Top Content */}
           <div>
             {/* Logo */}
-            <div className='w-full hidden md:flex px-4 py-1 shadow-lg rounded-lg bg-teal-100 mx-auto'>
+            <div className='w-full  md:flex px-4 py-1 shadow-lg rounded-lg bg-teal-100 mx-auto'>
               <Link to='/' className='flex items-center gap-2'>
                 <img
                   src={logo}
@@ -70,7 +70,7 @@ const Sidebar = () => {
                   className='w-10 h-10 rounded-xl'
                 />
                 <span className='text-xl font-bold text-teal-600'>
-                  Ticketbar
+                  Ticketbari
                 </span>
               </Link>
             </div>
