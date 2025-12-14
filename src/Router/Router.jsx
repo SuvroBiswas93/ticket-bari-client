@@ -60,25 +60,25 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
-        path: '/profile',
+        path: 'profile',
         element: <PrivateRoute>
           <Profile></Profile>
         </PrivateRoute>
       },
       {
-        path:'/my-booked-tickets',
+        path:'my-booked-tickets',
         element:<PrivateRoute>
           <MyBookedTickets></MyBookedTickets>
         </PrivateRoute>
       },
       {
-        path:'/transaction-history',
+        path:'transaction-history',
         element:<PrivateRoute>
           <TransactionHistory></TransactionHistory>
         </PrivateRoute>
       },
       {
-        path: '/add-ticket',
+        path: 'add-ticket',
         element: <PrivateRoute>
           <VendorRoute>
             <AddTicket></AddTicket>
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
         </PrivateRoute>
       },
       {
-        path: '/my-added-tickets',
+        path: 'my-added-tickets',
         element: <PrivateRoute>
           <VendorRoute>
             <MyAddedTickets></MyAddedTickets>
@@ -94,17 +94,17 @@ export const router = createBrowserRouter([
         </PrivateRoute>
       },
       {
-        path: '/update-ticket/:id',  
+        path: 'update-ticket/:id',  
         element: 
           <PrivateRoute>
             <VendorRoute>
-              <UpdateTicket />
+              {/* <UpdateTicket /> */}
             </VendorRoute>
           </PrivateRoute>
         
       },
       {
-        path:'/payment/:bookingId',
+        path:'payment/:bookingId',
         element:<Payment></Payment>
       },
       {

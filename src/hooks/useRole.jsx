@@ -18,7 +18,15 @@ const useRole = () => {
     const fetchRole = async () => {
       setIsRoleLoading(true);
       try {
-        const result = await axiosSecure(`/user/role?email=${user.email}`);
+        // const result = await axiosSecure(`/user/role?email=${user.email}`);
+        const result = await new Promise((resolve)=> {
+          resolve( {
+            data: {
+              role: "vendor",
+            }
+          });
+        });   
+        console.log(result, "result")
         setRole(result.data.role);
       } catch (error) {
         toast.error(error?.response?.data?.message || error.message || "Failed to fetch role")

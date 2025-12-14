@@ -1,9 +1,10 @@
 import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { imageUpload } from "../../utils/imageUpload";
+
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+// import { imageUpload } from "../../../utils/Index";
 
 const AddTicket = () => {
   const { user } = use(AuthContext);
@@ -24,6 +25,7 @@ const AddTicket = () => {
       // Upload image
       const imageFile = data.image[0];
       const imageUrl = await imageUpload(imageFile);
+     
 
       // Prepare ticket payload
       const ticketData = {

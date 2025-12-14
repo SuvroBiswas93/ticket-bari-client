@@ -12,14 +12,14 @@ const UserMenu = () => {
 
       <MenuItem 
         icon={FaTicketAlt} 
-        label="My Tickets" 
-        address="my-tickets" 
+        label="My Booked Tickets" 
+        address="my-booked-tickets" 
       />
 
       <MenuItem 
         icon={FaRegHeart} 
-        label="Wishlist" 
-        address="wishlist" 
+        label="Transaction History" 
+        address="transaction-history" 
       />
     </>
   );
