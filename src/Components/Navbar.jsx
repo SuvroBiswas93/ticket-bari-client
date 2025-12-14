@@ -1,5 +1,5 @@
 import React, { use, useEffect, useState } from 'react';
-import { Link, Navigate, NavLink } from 'react-router';
+import { Link, Navigate, NavLink, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import logo from '../assets/ticket-bari.jpg'
 import { motion } from "framer-motion";
@@ -9,6 +9,10 @@ const MotionLink = motion(Link);
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext)
+    const location = useLocation()
+    console.log(location)
+
+    
     // const loginTime = localStorage.getItem("loginTime");
 
     // Theme Toggling
@@ -37,7 +41,7 @@ const Navbar = () => {
             });
     }
     return (
-        <div className="navbar bg-base-100 shadow-sm fixed top-0 left-0 w-full z-50 ">
+        <div className={`navbar bg-base-100 shadow-sm fixed top-0 left-0 ${location.pathname.includes('dashboard') ? 'md:w-[1100px] md:ml-[257px] w-full':'w-full'} z-50` }>
             <div className="container  mx-auto  sm:px-6 lg:px-8 flex justify-between items-center">
                 {/* Left section (Logo + Dropdown) */}
                 <div className="flex items-center gap-1 shrink-0 ">

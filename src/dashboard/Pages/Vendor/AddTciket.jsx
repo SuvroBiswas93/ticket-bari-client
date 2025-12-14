@@ -56,8 +56,8 @@ const AddTicket = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-teal-50 to-emerald-50 px-4">
-      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-8">
+    <div className="min-h-screen flex items-center justify-center  px-4">
+      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-8">
         <h2 className="text-2xl font-bold text-center text-teal-700 mb-6">
           Add Ticket
         </h2>
