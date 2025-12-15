@@ -13,15 +13,27 @@ const MyAddedTickets = () => {
 
   const [tickets, setTickets] = useState([]);
   const [ticketsLoading, setTicketsLoading] = useState(true);
+  const [isFraud, setIsFraud] = useState(false);
 
-  //FETCH TICKETS
+  // CHECK IF USER IS FRAUD VENDOR
+  const fetchUserStatus = useCallback(async () => {
+    try {
+      const res = await axiosSecure.get(`/users/${user?.email}`);
+      setIsFraud(res.data?.isFraud || false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to get user status");
+    }
+  }, [axiosSecure, user?.email]);
+
+  // FETCH TICKETS
   const fetchTickets = useCallback(async () => {
     try {
       setTicketsLoading(true);
-      const res = await axiosSecure.get(
-        `/tickets?vendorEmail=${user?.email}`
-      );
-      setTickets(res.data);
+      const res = await axiosSecure.get(`/tickets?vendorEmail=${user?.email}`);
+      // HIDE tickets if vendor is fraud
+      const visibleTickets = res.data.filter(ticket => !ticket.isHidden);
+      setTickets(visibleTickets);
     } catch (error) {
       console.error(error);
       toast.error("Failed to load tickets");
@@ -32,12 +44,15 @@ const MyAddedTickets = () => {
 
   useEffect(() => {
     if (user?.email) {
+      fetchUserStatus();
       fetchTickets();
     }
-  }, [user?.email, fetchTickets]);
+  }, [user?.email, fetchTickets, fetchUserStatus]);
 
   // DELETE TICKET 
   const handleDelete = async (id) => {
+    if (isFraud) return toast.error("You are marked as fraud. Cannot delete tickets.");
+    
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -63,6 +78,17 @@ const MyAddedTickets = () => {
   // LOADING 
   if (loading || ticketsLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (isFraud) {
+    return (
+      <div className="p-6">
+        <h2 className="text-2xl font-bold text-red-600 mb-6">
+          You are marked as Fraud Vendor
+        </h2>
+        <p className="text-gray-500">You cannot add, update, or delete tickets.</p>
+      </div>
+    );
   }
 
   // ------ UI ---------
@@ -104,9 +130,7 @@ const MyAddedTickets = () => {
                   </span><br />
                   <span>
                     <strong>Perks:</strong>{" "}
-                    {ticket.perks?.length
-                      ? ticket.perks.join(", ")
-                      : "None"}
+                    {ticket.perks?.length ? ticket.perks.join(", ") : "None"}
                   </span>
                 </p>
 
@@ -131,9 +155,7 @@ const MyAddedTickets = () => {
                 <Link
                   to={`/update-ticket/${ticket._id}`}
                   className={`flex-1 text-center py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition ${
-                    ticket.status === "rejected"
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
+                    ticket.status === "rejected" ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   onClick={(e) => {
                     if (ticket.status === "rejected") e.preventDefault();
@@ -146,9 +168,7 @@ const MyAddedTickets = () => {
                   onClick={() => handleDelete(ticket._id)}
                   disabled={ticket.status === "rejected"}
                   className={`flex-1 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition ${
-                    ticket.status === "rejected"
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
+                    ticket.status === "rejected" ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
                   Delete

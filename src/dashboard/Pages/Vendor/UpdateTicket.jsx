@@ -16,6 +16,7 @@ const UpdateTicket = () => {
   const axiosSecure = useAxiosSecure();
 
   const [ticket, setTicket] = useState(null);
+  const [isFraud, setIsFraud] = useState(false);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -47,6 +48,24 @@ const UpdateTicket = () => {
     fetchTicket();
   }, [axiosSecure, id, reset, user?.email]);
 
+  // FETCH VENDOR FRAUD STATUS ----------
+  useEffect(() => {
+    if (!user?.email) return;
+
+    const fetchVendorStatus = async () => {
+      try {
+        const res = await axiosSecure.get(`/users/${user.email}`);
+        setIsFraud(res.data?.isFraud || false);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to get vendor status");
+      }
+    };
+
+    fetchVendorStatus();
+  }, [axiosSecure, user?.email]);
+
+
   // ----------SUBMIT ----------
   const onSubmit = async (data) => {
     if (ticket.status === "approved") {
@@ -54,6 +73,10 @@ const UpdateTicket = () => {
       return;
     }
 
+     if (isFraud) {
+      toast.error("You are marked as Fraud Vendor. Cannot update tickets.");
+      return;
+    }
     try {
       let imageUrl = ticket.image;
 
@@ -86,7 +109,7 @@ const UpdateTicket = () => {
     return <LoadingSpinner />;
   }
 
-  const isDisabled = ticket.status === "approved" || ticket.status === "rejected";
+  const isDisabled = ticket.status === "approved" || ticket.status === "rejected" ||isFraud;
 
   // ------ UI -----------
   return (
@@ -94,6 +117,11 @@ const UpdateTicket = () => {
       <h2 className="text-2xl font-bold text-teal-700 mb-6">
         Update Ticket
       </h2>
+      {isFraud && (
+        <p className="text-red-600 font-semibold mb-4">
+          You are marked as Fraud Vendor. You cannot update tickets.
+        </p>
+      )}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
