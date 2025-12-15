@@ -24,6 +24,9 @@ import AdminRoute from "./AdminRoute";
 import ManageTickets from "../dashboard/Pages/Admin/ManageTickets";
 import ManageUsers from "../dashboard/Pages/Admin/ManageUsers";
 import AdvertiseTickets from "../dashboard/Pages/Admin/AdvertiseTickets";
+import TicketDetails from "../Pages/TicketDetails/TicketDetails";
+import AdvertisementSection from "../Pages/Home/AdvertisementSection/AdvertisementSection";
+import LatestTicketsSection from "../Pages/Home/LatestTicketsSection/LatestTicketsSection";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +44,22 @@ export const router = createBrowserRouter([
       {
         path: '/forgot-password',
         element: <ForgotPassword></ForgotPassword>
+      },
+      {
+        path:'/advertisements',
+        element:<AdvertisementSection></AdvertisementSection>
+      },
+      {
+        path:'latest-ticket',
+        element:<LatestTicketsSection></LatestTicketsSection>
+      },
+      {
+        path:'/ticket/:id',
+        element:
+        <PrivateRoute>
+          <TicketDetails></TicketDetails>
+        </PrivateRoute>
+
       }
     ]
   },
