@@ -18,6 +18,8 @@ import PaymentCancelled from "../dashboard/Payment/PaymentCancelled";
 import MyBookedTickets from "../dashboard/Pages/User/MyBookedTickets";
 import TransactionHistory from "../dashboard/Pages/User/TransactionHistory";
 import UpdateTicket from "../dashboard/Pages/Vendor/UpdateTicket";
+import RequestedBookings from "../dashboard/Pages/Vendor/RequestedBookings";
+import RevenueOverview from "../dashboard/Pages/Vendor/RevenueOverview";
 
 export const router = createBrowserRouter([
   {
@@ -103,6 +105,24 @@ export const router = createBrowserRouter([
             </VendorRoute>
           </PrivateRoute>
         
+      },
+      {
+        path:'requested-bookings',
+        element:
+        <PrivateRoute>
+          <VendorRoute>
+            <RequestedBookings></RequestedBookings>
+          </VendorRoute>
+        </PrivateRoute>
+      },
+      {
+        path:'revenue-overview',
+        element:
+        <PrivateRoute>
+          <VendorRoute>
+            <RevenueOverview></RevenueOverview>
+          </VendorRoute>
+        </PrivateRoute>
       },
       {
         path:'payment/:bookingId',
