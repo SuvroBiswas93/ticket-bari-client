@@ -33,7 +33,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className='bg-gray-100 text-black flex justify-between md:hidden'>
+      <div className='dark:bg-red-100 text-black flex justify-between md:hidden'>
         <div>
           <div className='block cursor-pointer p-4 font-bold '>
             <Link to='/'>
@@ -55,14 +55,14 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex  flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
+        className={`z-10 md:fixed flex  flex-col justify-between overflow-x-hidden dark:bg-gray-400 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
           }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
         <div className='flex flex-col h-full'>
           {/* Top Content */}
           <div>
             {/* Logo */}
-            <div className='w-full  md:flex px-4 py-1 shadow-lg rounded-lg bg-teal-100 mx-auto'>
+            <div className='w-full  md:flex px-4 py-1 shadow-lg rounded-lg bg-teal-100 dark:bg-teal-100 mx-auto'>
               <Link to='/' className='flex items-center gap-2'>
                 <img
                   src={logo}

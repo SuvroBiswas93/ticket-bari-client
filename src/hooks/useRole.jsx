@@ -22,7 +22,7 @@ const useRole = () => {
         const result = await new Promise((resolve)=> {
           resolve( {
             data: {
-              role: "user",
+              role: "admin",
             }
           });
         });   

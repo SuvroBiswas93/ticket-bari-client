@@ -16,20 +16,19 @@ const Navbar = () => {
     // const loginTime = localStorage.getItem("loginTime");
 
     // Theme Toggling
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") === "light" ? "light" : "dark"
-    );
-    useEffect(() => {
 
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || "light";
+    });
+
+    useEffect(() => {
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
-
     }, [theme]);
 
-    const handleThemeToggle = (e) => {
-        setTheme(e.target.checked ? "dark" : "light");
+    const handleThemeToggle = (event) => {
+        setTheme(event.target.checked ? "dark" : "light");
     };
-
     const handleLogout = () => {
         logOut()
             .then(() => {
@@ -44,9 +43,9 @@ const Navbar = () => {
         <div
             className={`navbar bg-base-100 shadow-sm fixed top-0 left-0 right-0 w-full 
   ${location.pathname.includes('Dashboard')
-                    ? 'md:left-auto md:w-[81.2%] md:right-0'
+                    ? 'md:left-auto md:w-[81.25%] md:right-0'
                     : 'w-full'
-                }z-50`}
+                } z-9999`}
         >
             <div className="container  mx-auto  sm:px-6 lg:px-8 flex justify-between items-center">
                 {/* Left section (Logo + Dropdown) */}
@@ -85,9 +84,9 @@ const Navbar = () => {
                             {
                                 user && (<>
                                     <li>
-                                        <NavLink to="/dashboard"
+                                        <NavLink to="/Dashboard"
                                             className={({ isActive }) =>
-                                                isActive ? 'text-teal-600 font-semibold' : ''
+                                                isActive ? 'text-teal-600 font-semibold ' : ''
                                             }>
                                             Dashboard
                                         </NavLink>
@@ -133,12 +132,11 @@ const Navbar = () => {
                                 <li>
                                     <NavLink to="/Dashboard"
                                         className={({ isActive }) =>
-                                            isActive ? 'text-teal-600 font-semibold' : ''
+                                            isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
                                         }>
                                         Dashboard
                                     </NavLink>
                                 </li>
-
 
 
 

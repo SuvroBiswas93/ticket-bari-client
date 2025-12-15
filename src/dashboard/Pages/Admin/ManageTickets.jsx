@@ -67,9 +67,9 @@ const ManageTickets = () => {
         Manage Tickets
       </h2>
 
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
+      <div className="overflow-x-auto bg-white rounded-lg shadow-lg border border-teal-500">
         <table className="table w-full">
-          <thead className="bg-gray-100">
+          <thead className="bg-teal-500 text-black">
             <tr>
               <th>#</th>
               <th>Ticket Title</th>
@@ -142,7 +142,7 @@ const ManageTickets = () => {
 
             {tickets.length === 0 && (
               <tr>
-                <td colSpan="7" className="text-center py-10">
+                <td colSpan="7" className="text-center py-10 text-2xl">
                   No tickets found
                 </td>
               </tr>
