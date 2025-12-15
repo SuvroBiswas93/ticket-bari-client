@@ -20,6 +20,9 @@ import TransactionHistory from "../dashboard/Pages/User/TransactionHistory";
 import UpdateTicket from "../dashboard/Pages/Vendor/UpdateTicket";
 import RequestedBookings from "../dashboard/Pages/Vendor/RequestedBookings";
 import RevenueOverview from "../dashboard/Pages/Vendor/RevenueOverview";
+import AdminRoute from "./AdminRoute";
+import ManageTickets from "../dashboard/Pages/Admin/ManageTickets";
+import ManageUsers from "../dashboard/Pages/Admin/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +65,9 @@ export const router = createBrowserRouter([
     </PrivateRoute>,
     errorElement: <ErrorPage></ErrorPage>,
     children: [
+
+      // ====================== User Routes ==================
+
       {
         path: 'profile',
         element: <PrivateRoute>
@@ -80,6 +86,9 @@ export const router = createBrowserRouter([
           <TransactionHistory></TransactionHistory>
         </PrivateRoute>
       },
+
+      // ================= Vendor Routes ====================
+
       {
         path: 'add-ticket',
         element: <PrivateRoute>
@@ -124,6 +133,30 @@ export const router = createBrowserRouter([
           </VendorRoute>
         </PrivateRoute>
       },
+
+      //================= Admin Routes =================
+
+      {
+        path:'manage-tickets',
+        element:
+        <PrivateRoute>
+          <AdminRoute>
+            <ManageTickets></ManageTickets>
+          </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path:'manage-users',
+        element:
+        <PrivateRoute>
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
+        </PrivateRoute>
+      },
+
+      //================= Payment Related Routes===================  
+
       {
         path:'payment/:bookingId',
         element:<Payment></Payment>
