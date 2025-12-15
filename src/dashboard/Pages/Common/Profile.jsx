@@ -61,7 +61,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex justify-center items-center pt-4">
+    <div className="flex justify-center items-center pt-8 px-4">
       <div className="bg-white shadow-lg rounded-2xl md:w-4/5 lg:w-3/5 border-2 border-teal-600 overflow-hidden">
         <img
           alt="cover"

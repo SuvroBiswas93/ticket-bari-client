@@ -43,7 +43,7 @@ const Navbar = () => {
         <div
             className={`navbar bg-base-100 shadow-sm fixed top-0 left-0 right-0 w-full 
   ${location.pathname.includes('Dashboard')
-                    ? 'md:left-auto md:w-[81.25%] md:right-0'
+                    ? 'md:left-auto md:w-[81.08%] md:right-0'
                     : 'w-full'
                 } z-9999`}
         >

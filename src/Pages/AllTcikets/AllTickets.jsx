@@ -1,9 +1,8 @@
-"use client";
-
 import { useState, useEffect, useMemo } from "react";
-import useAxiosSecure from "@/src/hooks/useAxiosSecure";
-import TicketCard from "@/src/components/tickets/TicketCard";
 import { Search, Filter, ArrowUpDown } from "lucide-react";
+import LoadingSpinner from "../../Components/LoadingSpinner/LoadingSpinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import TicketCard from "../../Components/ticketCard/TicketCard";
 
 export default function AllTickets() {
   const axiosSecure = useAxiosSecure();
@@ -60,13 +59,7 @@ export default function AllTickets() {
     currentPage * itemsPerPage
   );
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-xl text-slate-600 dark:text-slate-300">
-        Loading tickets...
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner/>
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12 px-4">
