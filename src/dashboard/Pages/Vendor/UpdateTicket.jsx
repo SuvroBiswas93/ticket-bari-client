@@ -48,7 +48,7 @@ const UpdateTicket = () => {
     fetchTicket();
   }, [axiosSecure, id, reset, user?.email]);
 
-  // FETCH VENDOR FRAUD STATUS ----------
+  // --------FETCH VENDOR FRAUD STATUS ----------
   useEffect(() => {
     if (!user?.email) return;
 
