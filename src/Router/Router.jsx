@@ -17,6 +17,7 @@ import PaymentSuccess from "../dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../dashboard/Payment/PaymentCancelled";
 import MyBookedTickets from "../dashboard/Pages/User/MyBookedTickets";
 import TransactionHistory from "../dashboard/Pages/User/TransactionHistory";
+import UpdateTicket from "../dashboard/Pages/Vendor/UpdateTicket";
 
 export const router = createBrowserRouter([
   {
@@ -98,7 +99,7 @@ export const router = createBrowserRouter([
         element: 
           <PrivateRoute>
             <VendorRoute>
-              {/* <UpdateTicket /> */}
+              <UpdateTicket />
             </VendorRoute>
           </PrivateRoute>
         
