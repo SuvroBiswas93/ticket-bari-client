@@ -33,7 +33,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
+      <div className='bg-gray-100 text-black flex justify-between md:hidden'>
         <div>
           <div className='block cursor-pointer p-4 font-bold '>
             <Link to='/'>
@@ -80,7 +80,7 @@ const Sidebar = () => {
           {/* Middle Content */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
             {/*  Menu Items */}
-            <nav>
+            <nav className='hover:text-teal-300'>
 
               {/* Role-Based Menu */}
               {role === 'user' && <UserMenu></UserMenu>}
@@ -91,13 +91,13 @@ const Sidebar = () => {
 
           {/* Bottom Content */}
           <div>
-            <hr />
+            <hr  className='text-black'/>
 
-            <MenuItem
+            {/* <MenuItem
               icon={FcSettings}
               label='Profile'
               address='/dashboard/profile'
-            />
+            /> */}
             <button
               onClick={logOut}
               className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
