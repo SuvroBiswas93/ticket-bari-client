@@ -10,6 +10,7 @@ const ErrorPage = () => {
         <div >
             <>
                 <Navbar></Navbar>
+                
                 {/* <div>{error.message}</div> */}
                 <div className=' flex flex-col justify-center items-center space-y-3 mt-18 px-4'>
                     <img src={errorImg} alt='Error Image' className='rounded-xl' />

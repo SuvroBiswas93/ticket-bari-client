@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
 import Sidebar from '../dashboard/SideBar/Sidebar'
 import Navbar from '../Components/Navbar'
+import { ToastContainer } from 'react-toastify'
 
 
 const DashboardLayout = () => {
@@ -15,6 +16,7 @@ const DashboardLayout = () => {
              <Navbar/>
           {/* Outlet for dynamic contents */}
           <Outlet />
+          <ToastContainer position="top-right" autoClose={3000}></ToastContainer>
         </div>
       </div>
     </div>
