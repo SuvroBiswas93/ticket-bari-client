@@ -3,6 +3,7 @@ import { Search, Filter, ArrowUpDown } from "lucide-react";
 import LoadingSpinner from "../../Components/LoadingSpinner/LoadingSpinner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import TicketCard from "../../Components/ticketCard/TicketCard";
+import useDebounce from "../../hooks/useDebounce";
 
 export default function AllTickets() {
   const axiosSecure = useAxiosSecure();
@@ -11,6 +12,8 @@ export default function AllTickets() {
   const [loading, setLoading] = useState(true);
 
   const [searchRoute, setSearchRoute] = useState("");
+  const debouncedSearchRoute = useDebounce(searchRoute, 500);
+
   const [transportType, setTransportType] = useState("");
   const [sortBy, setSortBy] = useState("price");
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +41,7 @@ export default function AllTickets() {
   const filtered = useMemo(() => {
     const result = tickets.filter((ticket) => {
       const matchRoute =
-        `${ticket.from} ${ticket.to}`.toLowerCase().includes(searchRoute.toLowerCase());
+        `${ticket.from} ${ticket.to}`.toLowerCase().includes(debouncedSearchRoute.toLowerCase());
 
       const matchType = transportType ? ticket.transportType === transportType : true;
 
@@ -49,7 +52,7 @@ export default function AllTickets() {
     if (sortBy === "departure") result.sort((a, b) => new Date(a.departureTime) - new Date(b.departureTime));
 
     return result;
-  }, [tickets, searchRoute, transportType, sortBy]);
+  }, [tickets, debouncedSearchRoute, transportType, sortBy]);
 
   // Pagination
   const itemsPerPage = 6;

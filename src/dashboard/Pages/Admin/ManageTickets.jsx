@@ -142,7 +142,7 @@ const ManageTickets = () => {
 
             {tickets.length === 0 && (
               <tr>
-                <td colSpan="7" className="text-center py-10 text-2xl">
+                <td colSpan="7" className="text-center py-10 text-2xl text-black">
                   No tickets found
                 </td>
               </tr>

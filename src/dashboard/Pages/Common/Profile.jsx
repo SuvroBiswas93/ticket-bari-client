@@ -80,19 +80,19 @@ const Profile = () => {
             {role}
           </p>
 
-          <p className="mt-2 text-xl font-medium">
+          <p className="mt-2 text-xl font-medium text-black">
             User Id: {user?.uid}
           </p>
 
           <div className="w-full mt-6 grid grid-cols-1 items-center md:grid-cols-3 text-sm gap-4">
             <div>
-              <p>Name</p>
-              <p className="font-bold">{user?.displayName}</p>
+              <p className='text-black'>Name</p>
+              <p className="font-bold text-black">{user?.displayName}</p>
             </div>
 
             <div>
-              <p>Email</p>
-              <p className="font-bold">{user?.email}</p>
+              <p className='text-black'>Email</p>
+              <p className="font-bold text-black">{user?.email}</p>
             </div>
 
             <div className="flex items-end">
@@ -119,29 +119,29 @@ const Profile = () => {
               <RxCross1 />
             </button>
 
-            <h2 className="text-xl font-semibold mb-4">
+            <h2 className="text-xl text-teal-500 font-semibold mb-4">
               Update Profile
             </h2>
 
             <form onSubmit={handleUpdateProfile} className="space-y-4">
               <div>
-                <label className="text-sm">Name</label>
+                <label className="text-sm text-black">Name</label>
                 <input
                   type="text"
                   name="name"
                   defaultValue={user?.displayName}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded px-3 py-2 text-black"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-sm">Photo URL</label>
+                <label className="text-sm text-black">Photo URL</label>
                 <input
                   type="text"
                   name="photo"
                   defaultValue={user?.photoURL}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded px-3 py-2 text-black"
                 />
               </div>
 
