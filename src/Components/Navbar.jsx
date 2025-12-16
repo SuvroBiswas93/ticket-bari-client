@@ -175,7 +175,7 @@ const Navbar = () => {
 
                             <li>
                                 <NavLink
-                                    to="/my-profile"
+                                    to="/Dashboard/profile"
                                     className={({ isActive }) =>
                                         `block text-center py-1 px-2 rounded ${isActive
                                             ? 'text-teal-600 border-b-2 border-teal-600 font-bold'
