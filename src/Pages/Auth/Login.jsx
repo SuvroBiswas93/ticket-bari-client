@@ -18,18 +18,30 @@ const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const shouldRedirectTo = (path) => {
+        if (!path) return false;
+        
+        const protectedRoutes = ['/Dashboard', '/auth'];
+        const isProtected = protectedRoutes.some(route => path.startsWith(route));
+        
+        return !isProtected;
+    };
+
+    const getRedirectPath = () => {
+        const redirectPath = typeof location.state === 'string' 
+            ? location.state 
+            : location.state?.from || null;
+        
+        return shouldRedirectTo(redirectPath) ? redirectPath : "/";
+    };
+
     const handleLogin = (data) => {
         const {email,password}= data
         signIn(email, password)
             .then((result) => {
                 console.log(result)
                 toast.success("Login Successful!");
-                // Redirect to the page user came from, or home page
-                // location.state can be a string (pathname) or an object with 'from' property
-                const redirectTo = typeof location.state === 'string' 
-                    ? location.state 
-                    : location.state?.from || "/";
-                navigate(redirectTo);
+                navigate(getRedirectPath());
             })
             .catch((error) => setError(error.code));
     };
@@ -39,12 +51,7 @@ const Login = () => {
         try {
             await googleLogin();
             toast.success("Login successful!");
-            // Redirect to the page user came from, or home page
-            // location.state can be a string (pathname) or an object with 'from' property
-            const redirectTo = typeof location.state === 'string' 
-                ? location.state 
-                : location.state?.from || "/";
-            navigate(redirectTo);
+            navigate(getRedirectPath());
         } catch (error) {
             toast.error(error.message);
         } finally {
