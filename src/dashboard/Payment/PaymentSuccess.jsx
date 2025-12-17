@@ -104,10 +104,10 @@ const PaymentSuccess = () => {
                     </div>
 
                     {/* Payment Details Card */}
-                    <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-6 space-y-4 mb-6">
+                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 space-y-4 mb-6 border border-slate-200 dark:border-slate-700">
                         <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-3">
-                                <CreditCard className="text-slate-500" size={20} />
+                                <CreditCard className="text-slate-500 dark:text-slate-400" size={20} />
                                 <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                     Transaction ID
                                 </span>
@@ -119,7 +119,7 @@ const PaymentSuccess = () => {
 
                         <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-3">
-                                <Ticket className="text-slate-500" size={20} />
+                                <Ticket className="text-slate-500 dark:text-slate-400" size={20} />
                                 <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                     Ticket Title
                                 </span>
@@ -131,19 +131,19 @@ const PaymentSuccess = () => {
 
                         <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-3">
-                                <DollarSign className="text-teal-600" size={20} />
+                                <DollarSign className="text-teal-600 dark:text-teal-400" size={20} />
                                 <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                     Amount Paid
                                 </span>
                             </div>
                             <span className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                                ৳ { paymentInfo.ticketPrice || "0"}
+                                ৳ {paymentInfo.ticketPrice?.toLocaleString() || paymentInfo.ticketPrice || "0"}
                             </span>
                         </div>
 
                         <div className="flex items-center justify-between py-3">
                             <div className="flex items-center gap-3">
-                                <Calendar className="text-slate-500" size={20} />
+                                <Calendar className="text-slate-500 dark:text-slate-400" size={20} />
                                 <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                     Payment Date
                                 </span>
