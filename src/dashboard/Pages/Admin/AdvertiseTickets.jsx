@@ -16,9 +16,9 @@ const AdvertiseTickets = () => {
       try {
         setLoading(true);
         const res = await axiosSecure.get(
-          "/tickets?status=approved"
+          "/admins/tickets/all"
         );
-        setTickets(res.data);
+        setTickets(res.data?.data || []);
       } catch  {
         Swal.fire("Error", "Failed to load tickets", "error");
       } finally {
@@ -44,8 +44,8 @@ const AdvertiseTickets = () => {
     }
 
     try {
-      await axiosSecure.patch(
-        `/tickets/advertise/${ticket._id}`,
+      await axiosSecure.put(
+        `/admins/tickets/${ticket._id}/advertise`,
         { isAdvertised: !ticket.isAdvertised }
       );
 
@@ -87,7 +87,7 @@ const AdvertiseTickets = () => {
               <th>Route</th>
               <th>Transport</th>
               <th>Price</th>
-              <th>Departure</th>
+              <th>Departure Time</th>
               <th className="text-center">Advertise</th>
             </tr>
           </thead>
@@ -116,7 +116,7 @@ const AdvertiseTickets = () => {
 
                 <td>
                   {new Date(
-                    ticket.departureDate
+                    ticket.departureTime
                   ).toLocaleString()}
                 </td>
 
