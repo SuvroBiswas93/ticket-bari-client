@@ -16,8 +16,8 @@ const ManageTickets = () => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const res = await axiosSecure.get("/tickets");
-        setTickets(res.data);
+        const res = await axiosSecure.get("/admins/tickets/all");
+        setTickets(res.data?.data || []);
       } catch (error) {
         console.error("Failed to load tickets", error);
       } finally {
@@ -41,13 +41,16 @@ const ManageTickets = () => {
     if (!confirm.isConfirmed) return;
 
     try {
-      await axiosSecure.patch(`/tickets/${ticketId}`, { status });
+      await axiosSecure.put(`/admins/tickets/${ticketId}/verify`, { status });
 
       setTickets((prev) =>
         prev.map((ticket) =>
-          ticket._id === ticketId
-            ? { ...ticket, status }
-            : ticket
+        {
+          if(ticket._id === ticketId) {
+            return { ...ticket, verificationStatus: status }
+          }
+          return ticket
+        }
         )
       );
 
@@ -93,49 +96,57 @@ const ManageTickets = () => {
                   </p>
                 </td>
                 <td>৳ {ticket.price}</td>
-                <td>{ticket.quantity}</td>
+                <td>{ticket.totalQuantity}</td>
 
                 <td>
                   <span
                     className={`px-3 py-1 rounded-full text-sm capitalize
                       ${
-                        ticket.status === "pending" &&
+                        ticket.verificationStatus === "pending" &&
                         "bg-yellow-100 text-yellow-700"
                       }
                       ${
-                        ticket.status === "approved" &&
+                        ticket.verificationStatus === "approved" &&
                         "bg-green-100 text-green-700"
                       }
                       ${
-                        ticket.status === "rejected" &&
+                        ticket.verificationStatus === "rejected" &&
                         "bg-red-100 text-red-700"
                       }
                     `}
                   >
-                    {ticket.status}
+                    {ticket.verificationStatus}
                   </span>
                 </td>
 
                 <td className="text-center space-x-2">
-                  <button
-                    onClick={() =>
-                      handleStatusUpdate(ticket._id, "approved")
-                    }
-                    disabled={ticket.status !== "pending"}
-                    className="btn btn-sm btn-success disabled:opacity-40"
-                  >
-                    Approve
-                  </button>
+                  {
+                     ["pending", "rejected"].includes(ticket.verificationStatus) && (
+                      <>
+                        <button
+                          onClick={() =>
+                            handleStatusUpdate(ticket._id, "approved")
+                          }
+                          className="btn btn-sm btn-success disabled:opacity-40"
+                        >
+                          Approve
+                        </button>
+                      </>
+                    )
+                  }
 
-                  <button
-                    onClick={() =>
-                      handleStatusUpdate(ticket._id, "rejected")
-                    }
-                    disabled={ticket.status !== "pending"}
-                    className="btn btn-sm btn-error disabled:opacity-40"
-                  >
-                    Reject
-                  </button>
+                  { ["pending", "approved"].includes(ticket.verificationStatus) && (
+                    <>
+                      <button
+                        onClick={() =>
+                          handleStatusUpdate(ticket._id, "rejected")
+                        }
+                        className="btn btn-sm btn-error disabled:opacity-40"
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
