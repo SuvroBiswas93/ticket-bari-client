@@ -1,22 +1,35 @@
 import { Link } from "react-router";
-import { MapPin, Clock, Users } from "lucide-react";
+import { MapPin, Clock, Users, Bus } from "lucide-react";
 
 export default function TicketCard({ ticket }) {
   const {
-    id,
+    _id,
     image,
     title,
     from,
     to,
     departureTime,
-    quantity,
+    transportType,
+    availableQuantity:quantity,
     perks = [],
     price,
-    isFeatured,
+    isAdvertised:isFeatured,
   } = ticket;
 
+  // Format departure time
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
-    <Link to={`/ticket/${id}`}>
+    <Link to={`/ticket/${_id}`}>
       <div className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-300 h-full flex flex-col">
         
         {/* Image */}
@@ -49,15 +62,22 @@ export default function TicketCard({ ticket }) {
           </div>
 
           {/* Meta */}
-          <div className="grid grid-cols-2 gap-2 mb-4 text-xs text-slate-600 dark:text-slate-400">
-            <div className="flex items-center gap-1">
-              <Clock size={14} />
-              <span>{departureTime}</span>
+          <div className="space-y-2 mb-4">
+            <div className="flex items-center gap-2 text-xs">
+              <Bus size={14} className="text-teal-600 shrink-0" />
+              <span className="text-slate-600 dark:text-slate-400 font-medium">{transportType}</span>
             </div>
+            
+            <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-400">
+              <div className="flex items-center gap-1">
+                <Clock size={14} className="shrink-0" />
+                <span className="truncate">{formatDate(departureTime)}</span>
+              </div>
 
-            <div className="flex items-center gap-1">
-              <Users size={14} />
-              <span>{quantity} left</span>
+              <div className="flex items-center gap-1">
+                <Users size={14} className="shrink-0" />
+                <span>{quantity} left</span>
+              </div>
             </div>
           </div>
 
@@ -84,7 +104,7 @@ export default function TicketCard({ ticket }) {
           <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-200 dark:border-slate-700">
             <div>
               <p className="text-xs text-slate-600 dark:text-slate-400">From</p>
-              <p className="text-2xl font-bold text-teal-600">${price}</p>
+              <p className="text-2xl font-bold text-teal-600">৳ {price?.toLocaleString() || price}</p>
             </div>
 
             <button className="px-4 py-2 bg-linear-to-r from-teal-600 to-emerald-600 text-white rounded-lg text-sm font-semibold hover:shadow-md transition">

@@ -27,6 +27,7 @@ import AdvertiseTickets from "../dashboard/Pages/Admin/AdvertiseTickets";
 import TicketDetails from "../Pages/TicketDetails/TicketDetails";
 import AdvertisementSection from "../Pages/Home/AdvertisementSection/AdvertisementSection";
 import LatestTicketsSection from "../Pages/Home/LatestTicketsSection/LatestTicketsSection";
+import AllTickets from "../Pages/AllTcikets/AllTickets";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/all-tickets',
+        element: <AllTickets></AllTickets>
       },
       {
         path: '/forgot-password',
@@ -55,11 +57,7 @@ export const router = createBrowserRouter([
       },
       {
         path:'/ticket/:id',
-        element:
-        <PrivateRoute>
-          <TicketDetails></TicketDetails>
-        </PrivateRoute>
-
+        element:<TicketDetails></TicketDetails>
       }
     ]
   },

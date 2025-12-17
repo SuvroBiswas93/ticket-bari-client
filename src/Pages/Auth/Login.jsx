@@ -24,7 +24,12 @@ const Login = () => {
             .then((result) => {
                 console.log(result)
                 toast.success("Login Successful!");
-                navigate(location.state ? location.state : "/");
+                // Redirect to the page user came from, or home page
+                // location.state can be a string (pathname) or an object with 'from' property
+                const redirectTo = typeof location.state === 'string' 
+                    ? location.state 
+                    : location.state?.from || "/";
+                navigate(redirectTo);
             })
             .catch((error) => setError(error.code));
     };
@@ -34,7 +39,12 @@ const Login = () => {
         try {
             await googleLogin();
             toast.success("Login successful!");
-            navigate("/");
+            // Redirect to the page user came from, or home page
+            // location.state can be a string (pathname) or an object with 'from' property
+            const redirectTo = typeof location.state === 'string' 
+                ? location.state 
+                : location.state?.from || "/";
+            navigate(redirectTo);
         } catch (error) {
             toast.error(error.message);
         } finally {
