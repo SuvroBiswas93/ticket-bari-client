@@ -3,6 +3,7 @@ import HeroSlider from '../HeroSlider/HeroSlider';
 import PopularRoutes from '../PopularRoutes/PolpularRoutes';
 import AdvertisementSection from './AdvertisementSection/AdvertisementSection';
 import LatestTicketsSection from './LatestTicketsSection/LatestTicketsSection';
+import WhyChooseUs from './WhyChooseUs/WhyChooseUs';
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
             <AdvertisementSection></AdvertisementSection>
             <LatestTicketsSection></LatestTicketsSection>
             <PopularRoutes></PopularRoutes>
+            <WhyChooseUs></WhyChooseUs>
         </div>
     );
 };

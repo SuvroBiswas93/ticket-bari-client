@@ -140,7 +140,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
                     {/* Theme Toggle */}
                     <button
                         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                        className="p-2 rounded-lg cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition"
                         aria-label="Toggle theme"
                     >
                         {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}

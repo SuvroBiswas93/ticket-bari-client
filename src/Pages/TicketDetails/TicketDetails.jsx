@@ -327,7 +327,7 @@ const TicketDetails = () => {
               <button
                 disabled={isExpired || isSoldOut || !isAvailable}
                 onClick={handleBookNowClick}
-                className="w-full px-6 py-4 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 text-white font-semibold text-lg hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full px-6 py-4 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 cursor-pointer text-white font-semibold text-lg hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {isExpired ? "Expired" : isSoldOut ? "Sold Out" : !isAvailable ? "Not Available" : "Book Now"}
               </button>
@@ -425,13 +425,13 @@ const TicketDetails = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                  className="flex-1 px-4 py-3 rounded-xl cursor-pointer border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleBooking}
-                  className="flex-1 px-4 py-3 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 text-white font-semibold hover:shadow-lg transition"
+                  className="flex-1 px-4 py-3 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 cursor-pointer text-white font-semibold hover:shadow-lg transition"
                 >
                   Confirm Booking
                 </button>

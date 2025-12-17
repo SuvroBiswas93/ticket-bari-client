@@ -111,7 +111,7 @@ export default function AllTickets() {
                     setTransportType(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600 appearance-none"
+                  className="w-full pl-10 pr-4 py-2 border cursor-pointer border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600 appearance-none"
                 >
                   <option value="">All Types</option>
                   <option value="Bus">Bus</option>
@@ -135,7 +135,7 @@ export default function AllTickets() {
                     setSortBy(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600 appearance-none"
+                  className="w-full pl-10 pr-4 py-2 border cursor-pointer border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600 appearance-none"
                 >
                   <option value="price_asc">Price (Low to High)</option>
                   <option value="price_desc">Price (High to Low)</option>
@@ -162,7 +162,7 @@ export default function AllTickets() {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
+                  className="px-4 py-2 border cursor-pointer border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
                 >
                   Previous
                 </button>
@@ -174,7 +174,7 @@ export default function AllTickets() {
                     className={`px-3 py-2 rounded-lg transition ${
                       currentPage === page
                         ? "bg-teal-600 text-white"
-                        : "border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                        : "border border-slate-200 cursor-pointer dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
                     }`}
                   >
                     {page}
@@ -184,7 +184,7 @@ export default function AllTickets() {
                 <button
                   onClick={() => setCurrentPage(Math.min(pagination.pages, currentPage + 1))}
                   disabled={currentPage === pagination.pages}
-                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
+                  className="px-4 py-2 border cursor-pointer border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
                 >
                   Next
                 </button>

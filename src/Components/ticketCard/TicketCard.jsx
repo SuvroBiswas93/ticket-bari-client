@@ -107,7 +107,7 @@ export default function TicketCard({ ticket }) {
               <p className="text-2xl font-bold text-teal-600">৳ {price?.toLocaleString() || price}</p>
             </div>
 
-            <button className="px-4 py-2 bg-linear-to-r from-teal-600 to-emerald-600 text-white rounded-lg text-sm font-semibold hover:shadow-md transition">
+            <button className="px-4 py-2 bg-linear-to-r from-teal-600 to-emerald-600 cursor-pointer text-white rounded-lg text-sm font-semibold hover:shadow-md transition">
               View Details
             </button>
           </div>
