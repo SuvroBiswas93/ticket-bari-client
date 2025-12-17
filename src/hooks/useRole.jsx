@@ -5,9 +5,9 @@ import useAxiosSecure from "./useAxiosSecure";
 import { toast } from "react-toastify";
 
 const useRole = () => {
-  const { user, loading } = use(AuthContext);
+  const { user, loading, } = use(AuthContext);
   const axiosSecure = useAxiosSecure()
-
+ 
   const [role, setRole] = useState(null);
   const [isRoleLoading, setIsRoleLoading] = useState(true);
 
@@ -18,16 +18,9 @@ const useRole = () => {
     const fetchRole = async () => {
       setIsRoleLoading(true);
       try {
-        // const result = await axiosSecure(`/user/role?email=${user.email}`);
-        const result = await new Promise((resolve)=> {
-          resolve( {
-            data: {
-              role: "admin",
-            }
-          });
-        });   
+        const result = await axiosSecure(`/auth/me`);
         console.log(result, "result")
-        setRole(result.data.role);
+        setRole(result.data?.data?.role);
       } catch (error) {
         toast.error(error?.response?.data?.message || error.message || "Failed to fetch role")
         setRole(null);
