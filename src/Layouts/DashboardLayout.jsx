@@ -7,21 +7,21 @@ import Profile from '../dashboard/Pages/Common/Profile'
 
 const DashboardLayout = () => {
   return (
-    <div className='relative min-h-screen pt-[47px] md:flex bg-white'>
+    <div className='relative min-h-screen bg-slate-50 dark:bg-slate-950'>
       {/* Left Side: Sidebar Component */}
-      <Sidebar></Sidebar>
+      <Sidebar />
 
       {/* Right Side: Dashboard Dynamic Content */}
-      <div className='flex-1  md:ml-64'>
-        <div className=''>
-             <Navbar/>
-          {/* Outlet for dynamic contents */}
-          <main className='dark:bg-gray-800 dark:h-screen'>
-            <Outlet />
-            
-          </main>
-          <ToastContainer position="top-right" autoClose={3000}></ToastContainer>
-        </div>
+      <div className='md:ml-64'>
+        {/* Navbar */}
+        <Navbar />
+        
+        {/* Main Content Area */}
+        <main className='pt-16 min-h-screen'>
+          <Outlet />
+        </main>
+        
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
     </div>
   )

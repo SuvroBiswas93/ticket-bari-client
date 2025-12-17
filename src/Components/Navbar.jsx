@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import logo from '../assets/ticket-bari.jpg'
 import { motion } from "framer-motion";
 import { AuthContext } from '../Provider/AuthProvider';
+import { Menu, X, Moon, Sun, LogOut, User, Home, Ticket, LayoutDashboard } from 'lucide-react';
 
 const MotionLink = motion(Link);
 
@@ -26,9 +27,6 @@ const Navbar = () => {
         localStorage.setItem("theme", theme);
     }, [theme]);
 
-    const handleThemeToggle = (event) => {
-        setTheme(event.target.checked ? "dark" : "light");
-    };
     const handleLogout = () => {
         logOut()
             .then(() => {
@@ -39,206 +37,229 @@ const Navbar = () => {
                 toast.error(error);
             });
     }
+    const isDashboard = location.pathname.includes('Dashboard');
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
-        <div
-            className={`navbar bg-base-100 shadow-sm fixed top-0 left-0 right-0 w-full 
-  ${location.pathname.includes('Dashboard')
-                    ? 'md:left-auto md:w-[81.08%] md:right-0'
-                    : 'w-full'
-                } z-9999`}
+        <nav
+            className={`fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 shadow-sm z-50 transition-all duration-300 ${
+                isDashboard ? 'md:left-64' : ''
+            }`}
         >
-            <div className="container  mx-auto  sm:px-6 lg:px-8 flex justify-between items-center">
-                {/* Left section (Logo + Dropdown) */}
-                <div className="flex items-center gap-1 shrink-0 ">
-                    {/* Mobile dropdown */}
-                    <div className="dropdown">
-                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box shadow mt-3 w-40 p-2 z-100"
+            <div className="h-full px-4 sm:px-6 lg:px-8 mx-auto flex items-center justify-between">
+                {/* Left section (Logo + Mobile Menu) */}
+                <div className="flex items-center gap-4">
+                    {/* Mobile menu button - only show when NOT in dashboard (sidebar handles mobile menu there) */}
+                    {!isDashboard && (
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
                         >
-                            <li>
-                                <NavLink to="/" end
-                                    className={({ isActive }) =>
-                                        isActive ? 'text-teal-600 font-semibold' : ''
-                                    }>
-                                    Home
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/all-tickets"
-                                    className={({ isActive }) =>
-                                        isActive ? 'text-teal-600 font-semibold' : ''
-                                    }>
-                                    All Tickets
-                                </NavLink>
-                            </li>
-
-
-                            {
-                                user && (<>
-                                    <li>
-                                        <NavLink to="/Dashboard"
-                                            className={({ isActive }) =>
-                                                isActive ? 'text-teal-600 font-semibold ' : ''
-                                            }>
-                                            Dashboard
-                                        </NavLink>
-                                    </li>
-
-                                </>)
-                            }
-                        </ul>
-                    </div>
+                            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    )}
 
                     {/* Logo */}
-                    <Link to="/" className="text-teal-600 flex items-center text-xl font-bold">
-                        <img src={logo} alt="Logo" className="w-9 h-9 mr-1 rounded-lg" /> <span className='text-teal-600 text-2xl'>TicketBari</span>
+                    <Link to="/" className="flex items-center gap-2 group">
+                        <img 
+                            src={logo} 
+                            alt="TicketBari Logo" 
+                            className="w-10 h-10 rounded-lg group-hover:scale-105 transition-transform" 
+                        />
+                        <span className="text-xl font-bold bg-linear-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent hidden sm:block">
+                            TicketBari
+                        </span>
                     </Link>
                 </div>
 
                 {/* Center menu (Desktop only) */}
-                <div className="hidden lg:flex">
-                    <ul className="menu-horizontal flex gap-6 font-semibold px-1">
-                        <li>
-                            <NavLink to="/" end
-                                className={({ isActive }) =>
-                                    isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                }>
-                                Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/all-tickets"
-                                className={({ isActive }) =>
-                                    isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                }>
-                                All Tickets
-                            </NavLink>
-                        </li>
-
-
-
-                        {/* when user login the navabar should contains */}
-
-                        {
-                            user && (<>
-                                <li>
-                                    <NavLink to="/Dashboard"
-                                        className={({ isActive }) =>
-                                            isActive ? 'text-teal-600 border-b-2 border-teal-600 pb-1' : ''
-                                        }>
-                                        Dashboard
-                                    </NavLink>
-                                </li>
-
-
-
-                            </>)
+                <div className="hidden lg:flex items-center gap-1">
+                    <NavLink
+                        to="/"
+                        end
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                isActive
+                                    ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            }`
                         }
-                    </ul>
+                    >
+                        <div className="flex items-center gap-2">
+                            <Home size={16} />
+                            Home
+                        </div>
+                    </NavLink>
+                    <NavLink
+                        to="/all-tickets"
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                isActive
+                                    ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            }`
+                        }
+                    >
+                        <div className="flex items-center gap-2">
+                            <Ticket size={16} />
+                            All Tickets
+                        </div>
+                    </NavLink>
+                    {user && (
+                        <NavLink
+                            to="/Dashboard"
+                            className={({ isActive }) =>
+                                `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                    isActive
+                                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`
+                            }
+                        >
+                            <div className="flex items-center gap-2">
+                                <LayoutDashboard size={16} />
+                                Dashboard
+                            </div>
+                        </NavLink>
+                    )}
                 </div>
 
-                {/* div image thakbe state true false */}
+                {/* Right section (User menu / Auth buttons) */}
+                <div className="flex items-center gap-3">
+                    {/* Theme Toggle */}
+                    <button
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                        aria-label="Toggle theme"
+                    >
+                        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
 
-
-                {user ? (
-                    <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="avatar cursor-pointer">
-                            <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img
-                                    src={
-                                        user?.photoURL ||
-                                        'https://img.daisyui.com/images/profile/demo/spiderperson@192.webp'
-                                    }
-                                    alt="User Avatar"
-                                />
+                    {user ? (
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="cursor-pointer">
+                                <div className="w-10 h-10 rounded-full ring-2 ring-teal-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900 overflow-hidden hover:ring-teal-600 transition">
+                                    <img
+                                        src={user?.photoURL || 'https://img.daisyui.com/images/profile/demo/spiderperson@192.webp'}
+                                        alt="User Avatar"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
                             </div>
+                            <ul
+                                tabIndex={0}
+                                className="dropdown-content menu bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-56 p-2 mt-2 z-50"
+                            >
+                                <li className="px-3 py-2 border-b border-slate-200 dark:border-slate-700">
+                                    <div className="font-semibold text-slate-900 dark:text-white">
+                                        {user?.displayName || 'User'}
+                                    </div>
+                                    <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                                        {user?.email}
+                                    </div>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/Dashboard/profile"
+                                        className={({ isActive }) =>
+                                            `flex items-center gap-2 px-3 py-2 rounded-lg ${
+                                                isActive
+                                                    ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                            }`
+                                        }
+                                    >
+                                        <User size={16} />
+                                        My Profile
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 w-full text-left"
+                                    >
+                                        <LogOut size={16} />
+                                        Logout
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box shadow-md mt-3 w-48 p-2 z-100"
-                        >
-                            <li className="text-center font-semibold text-gray-700 py-1">
-                                {user?.displayName || 'User'}
-                            </li>
-
-                            <li className="text-center font-semibold text-gray-700 py-1">
-                                {user?.email || 'User'}
-                            </li>
-
-                            <li>
-                                <NavLink
-                                    to="/Dashboard/profile"
-                                    className={({ isActive }) =>
-                                        `block text-center py-1 px-2 rounded ${isActive
-                                            ? 'text-teal-600 border-b-2 border-teal-600 font-bold'
-                                            : 'text-gray-700 hover:text-teal-600 dark:bg-white'
-                                        }`
-                                    }
-                                >
-                                    My Profile
-                                </NavLink>
-                            </li>
-
-                            {/* <li className="text-center text-sm text-gray-500 py-1">
-                                Login: {loginTime || 'Unknown'}
-                            </li> */}
-                            <div className="divider my-1"></div>
-                            <li className="flex justify-center items-center py-2">
-                                <input
-                                    type="checkbox"
-                                    checked={theme === "dark"}
-                                    onChange={handleThemeToggle}
-                                    className="toggle p-1 toggle-success bg-gray-300 border-gray-400 checked:bg-indigo-600 checked:border-indigo-600 transition-all duration-300 scale-110"
-                                />
-                            </li>
-                            <li>
-                                <button
-                                    onClick={handleLogout}
-                                    className="btn bg-red-400 text-white hover:bg-red-600 w-full"
-                                >
-                                    Logout
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                ) : (
-                    <div className="flex justify-center items-center gap-2 shrink-0">
-                        <input
-                            type="checkbox"
-                            checked={theme === "dark"}
-                            onChange={handleThemeToggle}
-                            className="toggle p-1 toggle-success bg-gray-300 border-gray-400 checked:bg-indigo-600 checked:border-indigo-600 transition-all duration-300 scale-110"
-                        />
-                        <MotionLink
-
-                            to="/auth/login"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="btn btn-sm lg:btn-md text-teal-500 "
-                        >
-                            Login
-                        </MotionLink>
-                        <MotionLink
-                            to="/auth/register"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="btn btn-sm lg:btn-md bg-teal-500 text-white hover:bg-teal-600"
-                        >
-                            Register
-                        </MotionLink>
-
-                    </div>
-                )}
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <MotionLink
+                                to="/auth/login"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-4 py-2 rounded-lg text-sm font-semibold text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition"
+                            >
+                                Login
+                            </MotionLink>
+                            <MotionLink
+                                to="/auth/register"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-4 py-2 rounded-lg text-sm font-semibold bg-linear-to-r from-teal-600 to-emerald-600 text-white hover:shadow-lg transition"
+                            >
+                                Register
+                            </MotionLink>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+
+            {/* Mobile Menu */}
+            {!isDashboard && mobileMenuOpen && (
+                <div className="lg:hidden absolute top-16 left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 shadow-lg">
+                    <div className="px-4 py-4 space-y-2">
+                        <NavLink
+                            to="/"
+                            end
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-3 rounded-lg ${
+                                    isActive
+                                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`
+                            }
+                        >
+                            <Home size={20} />
+                            Home
+                        </NavLink>
+                        <NavLink
+                            to="/all-tickets"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-3 rounded-lg ${
+                                    isActive
+                                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`
+                            }
+                        >
+                            <Ticket size={20} />
+                            All Tickets
+                        </NavLink>
+                        {user && (
+                            <NavLink
+                                to="/Dashboard"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-2 px-4 py-3 rounded-lg ${
+                                        isActive
+                                            ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                    }`
+                                }
+                            >
+                                <LayoutDashboard size={20} />
+                                Dashboard
+                            </NavLink>
+                        )}
+                    </div>
+                </div>
+            )}
+        </nav>
     );
 };
 

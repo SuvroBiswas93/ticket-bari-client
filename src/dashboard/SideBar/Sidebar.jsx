@@ -1,14 +1,7 @@
 import { use, useState } from 'react'
 import { Link } from 'react-router'
 import logo from '../../assets/ticket-bari.jpg'
-// Icons
-import { GrLogout } from 'react-icons/gr'
-import { FcSettings } from 'react-icons/fc'
-import { AiOutlineBars } from 'react-icons/ai'
-
-
-// User Menu
-
+import { X, LogOut, Menu as MenuIcon } from 'lucide-react'
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner'
 import UserMenu from '../Menu/UserMenu'
 import VendorMenu from '../Menu/VendorMenu'
@@ -32,83 +25,70 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className='bg-gray-100 text-black flex justify-between md:hidden'>
-        <div>
-          <div className='block cursor-pointer p-4 font-bold '>
-            <Link to='/'>
-              <div className='flex gap-1'>
-                
-                
+      {/* Mobile Menu Button - only visible on small screens */}
+      <button
+        onClick={handleToggle}
+        className='md:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition'
+      >
+        {isActive ? <X size={24} /> : <MenuIcon size={24} />}
+      </button>
+
+      {/* Sidebar Overlay for mobile */}
+      {!isActive && (
+        <div
+          className='md:hidden fixed inset-0 bg-black/50 z-40'
+          onClick={handleToggle}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 flex flex-col z-40 transform transition-transform duration-300 ease-in-out ${
+          isActive ? '-translate-x-full' : 'translate-x-0'
+        } md:translate-x-0`}
+      >
+        <div className='flex flex-col h-full'>
+          {/* Top Content - Logo */}
+          <div className='p-6 border-b border-slate-200 dark:border-slate-700'>
+            <Link to='/' className='flex items-center gap-3 group'>
+              <img
+                src={logo}
+                alt='TicketBari Logo'
+                className='w-10 h-10 rounded-lg group-hover:scale-105 transition-transform'
+              />
+              <div>
+                <span className='text-xl font-bold bg-linear-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent block'>
+                  TicketBari
+                </span>
+                <span className='text-xs text-slate-500 dark:text-slate-400'>
+                  Dashboard
+                </span>
               </div>
             </Link>
           </div>
-        </div>
 
-        <button
-          onClick={handleToggle}
-          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200'
-        >
-          <AiOutlineBars className='h-5 w-5' />
-        </button>
-      </div>
-
-      {/* Sidebar */}
-      <div
-        className={`z-10 md:fixed flex  flex-col justify-between overflow-x-hidden dark:bg-teal-500 bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
-          }  md:translate-x-0  transition duration-200 ease-in-out`}
-      >
-        <div className='flex flex-col h-full'>
-          {/* Top Content */}
-          <div>
-            {/* Logo */}
-            <div className='w-full  md:flex px-4 py-1 shadow-lg rounded-lg bg-teal-100 dark:bg-teal-100 mx-auto'>
-              <Link to='/' className='flex items-center gap-2'>
-                <img
-                  src={logo}
-                  alt='logo'
-                  className='w-10 h-10 rounded-xl'
-                />
-                <span className='text-xl font-bold text-teal-600'>
-                  Ticketbari
-                </span>
-              </Link>
-            </div>
-
-          </div>
-
-          {/* Middle Content */}
-          <div className='flex flex-col justify-between flex-1 mt-6'>
-            {/*  Menu Items */}
-            <nav className='hover:text-teal-300'>
-
+          {/* Middle Content - Menu Items */}
+          <nav className='flex-1 overflow-y-auto p-4'>
+            <div className='space-y-1'>
               {/* Role-Based Menu */}
-              {profile?.role === 'user' && <UserMenu></UserMenu>}
-              {profile?.role === 'vendor' && <VendorMenu></VendorMenu>}
-              {profile?.role === 'admin' && <AdminMenu></AdminMenu>}
-            </nav>
-          </div>
+              {profile?.role === 'user' && <UserMenu />}
+              {profile?.role === 'vendor' && <VendorMenu />}
+              {profile?.role === 'admin' && <AdminMenu />}
+            </div>
+          </nav>
 
-          {/* Bottom Content */}
-          <div>
-            <hr  className='text-black'/>
-
-            {/* <MenuItem
-              icon={FcSettings}
-              label='Profile'
-              address='/dashboard/profile'
-            /> */}
+          {/* Bottom Content - Logout */}
+          <div className='p-4 border-t border-slate-200 dark:border-slate-700'>
             <button
               onClick={logOut}
-              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+              className='flex items-center gap-3 w-full px-4 py-3 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-medium'
             >
-              <GrLogout className='w-5 h-5 dark:text-black' />
-
-              <span className='mx-4 font-medium dark:text-black'>Logout</span>
+              <LogOut size={20} />
+              <span>Logout</span>
             </button>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   )
 }
