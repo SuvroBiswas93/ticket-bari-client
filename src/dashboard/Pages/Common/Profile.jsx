@@ -2,7 +2,7 @@ import coverImg from '../../../assets/coverimage_ticket.avif'
 import { use, useState } from 'react'
 import { toast } from 'react-toastify'
 import { AuthContext } from '../../../Provider/AuthProvider'
-import { RxCross1 } from "react-icons/rx";
+import { X, User, Mail, Edit2, Shield, Loader2 } from 'lucide-react'
 import useProfile from '../../../hooks/useProfile'
 import { saveOrUpdateUser } from '../../../utils/Index'
 import LoadingSpinner from '../../../Components/LoadingSpinner/LoadingSpinner'
@@ -61,45 +61,95 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex justify-center items-center pt-8 px-4">
-      <div className="bg-white shadow-lg rounded-2xl md:w-4/5 lg:w-3/5 border-2 border-teal-600 overflow-hidden">
-        <img
-          alt="cover"
-          src={coverImg}
-          className="w-full mb-4 rounded-t-lg h-56"
-        />
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden">
+          {/* Cover Image */}
+          <div className="relative h-64 overflow-hidden">
+            <img
+              alt="cover"
+              src={coverImg}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
+          </div>
 
-        <div className="flex flex-col items-center p-4 -mt-16">
-          <img
-            alt="profile"
-            src={user?.photoURL}
-            className="h-24 w-24 rounded-full border-2 border-white"
-          />
-
-          <p className="px-4 py-1 text-xs text-white bg-teal-500 rounded-full">
-            {profile?.role}
-          </p>
-
-          <p className="mt-2 text-xl font-medium text-black">
-            User Id: {user?.uid}
-          </p>
-
-          <div className="w-full mt-6 grid grid-cols-1 items-center md:grid-cols-3 text-sm gap-4">
-            <div>
-              <p className='text-black'>Name</p>
-              <p className="font-bold text-black">{user?.displayName}</p>
+          {/* Profile Section */}
+          <div className="flex flex-col items-center px-6 pb-8 -mt-20">
+            {/* Profile Picture */}
+            <div className="relative mb-4">
+              <img
+                alt="profile"
+                src={user?.photoURL || 'https://via.placeholder.com/150'}
+                className="h-32 w-32 rounded-full border-4 border-white dark:border-slate-900 shadow-lg object-cover"
+              />
+              <div className="absolute bottom-0 right-0 p-2 bg-teal-600 rounded-full border-4 border-white dark:border-slate-900">
+                <User className="text-white" size={16} />
+              </div>
             </div>
 
-            <div>
-              <p className='text-black'>Email</p>
-              <p className="font-bold text-black">{user?.email}</p>
+            {/* Role Badge */}
+            <div className="mb-3">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                <Shield size={14} />
+                {profile?.role?.charAt(0).toUpperCase() + profile?.role?.slice(1) || 'User'}
+              </span>
             </div>
 
-            <div className="flex items-end">
+            {/* User Info Cards */}
+            <div className="w-full mt-8 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Name Card */}
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
+                      <User className="text-teal-600 dark:text-teal-400" size={20} />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                        Name
+                      </p>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white">
+                        {user?.displayName || 'Not set'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email Card */}
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
+                      <Mail className="text-teal-600 dark:text-teal-400" size={20} />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                        Email
+                      </p>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white break-all">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* User ID Card */}
+              <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                <p className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-2">
+                  User ID
+                </p>
+                <p className="text-sm font-mono text-slate-700 dark:text-slate-300 break-all">
+                  {user?.uid}
+                </p>
+              </div>
+
+              {/* Update Button */}
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-6 py-2 rounded text-white bg-teal-500 hover:bg-teal-700 cursor-pointer"
+                className="w-full px-6 py-3 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 text-white font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
               >
+                <Edit2 size={18} />
                 Update Profile
               </button>
             </div>
@@ -109,53 +159,84 @@ const Profile = () => {
 
       {/* ================= MODAL ================= */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl w-full max-w-md p-6 relative">
-
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-md p-6 relative">
+            {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-3 right-3 text-teal-500   hover:text-red-600 cursor-pointer"
+              className="absolute top-4 right-4 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
             >
-              <RxCross1 />
+              <X className="text-slate-600 dark:text-slate-400" size={24} />
             </button>
 
-            <h2 className="text-xl text-teal-500 font-semibold mb-4">
-              Update Profile
-            </h2>
+            {/* Modal Header */}
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                Update Profile
+              </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                Update your profile information
+              </p>
+            </div>
 
-            <form onSubmit={handleUpdateProfile} className="space-y-4">
+            {/* Form */}
+            <form onSubmit={handleUpdateProfile} className="space-y-5">
               <div>
-                <label className="text-sm text-black">Name</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                  Name
+                </label>
                 <input
                   type="text"
                   name="name"
                   defaultValue={user?.displayName}
-                  className="w-full border rounded px-3 py-2 text-black"
+                  className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600"
                   required
+                  placeholder="Enter your name"
                 />
               </div>
 
               <div>
-                <label className="text-sm text-black">Photo URL</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                  Photo URL
+                </label>
                 <input
-                  type="text"
+                  type="url"
                   name="photo"
                   defaultValue={user?.photoURL}
-                  className="w-full border rounded px-3 py-2 text-black"
+                  className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600"
+                  placeholder="https://example.com/photo.jpg"
                 />
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  Enter a valid image URL
+                </p>
               </div>
 
-              <button
-                type="submit"
-                disabled={saving}
-                className={`w-full py-2 rounded text-white cursor-pointer ${
-                  saving
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-teal-500 hover:bg-teal-600'
-                }`}
-              >
-                {saving ? 'Updating...' : 'Save Changes'}
-              </button>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="flex-1 px-4 py-3 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 text-white font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 className="animate-spin" size={18} />
+                      Updating...
+                    </>
+                  ) : (
+                    <>
+                      <Edit2 size={18} />
+                      Save Changes
+                    </>
+                  )}
+                </button>
+              </div>
             </form>
           </div>
         </div>
