@@ -15,8 +15,8 @@ const ManageUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axiosSecure.get("/users");
-        setUsers(res.data);
+        const res = await axiosSecure.get("/admins/users");
+        setUsers(res.data?.data || []);
       } catch (error) {
         console.error("Failed to load users", error);
       } finally {
@@ -40,7 +40,7 @@ const ManageUsers = () => {
     if (!confirm.isConfirmed) return;
 
     try {
-      await axiosSecure.patch(`/users/role/${userId}`, { role });
+      await axiosSecure.put(`/admins/users/${userId}/role`, { role });
 
       setUsers(prev =>
         prev.map(user =>
@@ -56,7 +56,7 @@ const ManageUsers = () => {
   };
 
   // ================= MARK AS FRAUD =================
-  const handleFraud = async (userId) => {
+  const handleFraud = async (userId, isFraud) => {
     const confirm = await Swal.fire({
       title: "Mark Vendor as Fraud?",
       text: "This will hide all tickets and block future ticket creation.",
@@ -68,18 +68,18 @@ const ManageUsers = () => {
     if (!confirm.isConfirmed) return;
 
     try {
-      await axiosSecure.patch(`/users/fraud/${userId}`);
+      await axiosSecure.put(`/admins/users/${userId}/fraud`, { isFraud });
 
       setUsers(prev =>
         prev.map(user =>
-          user._id === userId ? { ...user, isFraud: true } : user
+          user._id === userId ? { ...user, isFraud } : user
         )
       );
 
-      Swal.fire("Success!", "Vendor marked as fraud", "success");
+      Swal.fire("Success!", `Vendor marked as ${isFraud ? "fraud" : "not fraud"}`, "success");
     } catch (error) {
       console.error("Fraud marking failed", error);
-      Swal.fire("Error!", "Failed to mark fraud", "error");
+      Swal.fire("Error!", `Failed to mark ${isFraud ? "fraud" : "not fraud"}`, "error");
     }
   };
 
@@ -140,12 +140,12 @@ const ManageUsers = () => {
                     Make Vendor
                   </button>
 
-                  {user.role === "vendor" && !user.isFraud && (
+                  {user.role === "vendor"  && (
                     <button
-                      onClick={() => handleFraud(user._id)}
+                      onClick={() => handleFraud(user._id, !user.isFraud)}
                       className="btn btn-sm btn-error"
                     >
-                      Mark Fraud
+                      {user.isFraud ? "Mark Not Fraud" : "Mark Fraud"}
                     </button>
                   )}
                 </td>
