@@ -15,20 +15,20 @@ import VendorMenu from '../Menu/VendorMenu'
 import AdminMenu from '../Menu/AdminMenu'
 import { AuthContext } from '../../Provider/AuthProvider'
 import MenuItem from '../Menu/MenuItem'
-import useRole from '../../hooks/useRole'
+import useProfile from '../../hooks/useProfile'
 
 
 const Sidebar = () => {
   const { logOut } = use(AuthContext)
   const [isActive, setActive] = useState(false)
-  const [role, isRoleLoading] = useRole()
+  const [profile, isProfileLoading] = useProfile()
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive)
   }
 
-  if (isRoleLoading) return <LoadingSpinner></LoadingSpinner>
+  if (isProfileLoading) return <LoadingSpinner></LoadingSpinner>
 
   return (
     <>
@@ -83,9 +83,9 @@ const Sidebar = () => {
             <nav className='hover:text-teal-300'>
 
               {/* Role-Based Menu */}
-              {role === 'user' && <UserMenu></UserMenu>}
-              {role === 'vendor' && <VendorMenu></VendorMenu>}
-              {role === 'admin' && <AdminMenu></AdminMenu>}
+              {profile?.role === 'user' && <UserMenu></UserMenu>}
+              {profile?.role === 'vendor' && <VendorMenu></VendorMenu>}
+              {profile?.role === 'admin' && <AdminMenu></AdminMenu>}
             </nav>
           </div>
 

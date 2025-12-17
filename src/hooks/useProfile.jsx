@@ -1,38 +1,38 @@
-// useRole.jsx
+
 import { use, useEffect, useState } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import useAxiosSecure from "./useAxiosSecure";
 import { toast } from "react-toastify";
 
-const useRole = () => {
+const useProfile = () => {
   const { user, loading, } = use(AuthContext);
   const axiosSecure = useAxiosSecure()
  
-  const [role, setRole] = useState(null);
-  const [isRoleLoading, setIsRoleLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   useEffect(() => {
     if (loading) return;           
     if (!user?.email) return;      
 
-    const fetchRole = async () => {
-      setIsRoleLoading(true);
+    const fetchProfile = async () => {
+      setIsProfileLoading(true);
       try {
         const result = await axiosSecure(`/auth/me`);
         console.log(result, "result")
-        setRole(result.data?.data?.role);
+        setProfile(result.data?.data);
       } catch (error) {
         toast.error(error?.response?.data?.message || error.message || "Failed to fetch role")
-        setRole(null);
+        setProfile(null);
       } finally {
-        setIsRoleLoading(false);
+        setIsProfileLoading(false);
       }
     };
 
-    fetchRole();
+    fetchProfile();
   }, [user, loading, axiosSecure]);
 
-  return [role, isRoleLoading];
+  return [profile, isProfileLoading];
 };
 
-export default useRole;
+export default useProfile;

@@ -3,18 +3,20 @@ import { use, useState } from 'react'
 import { toast } from 'react-toastify'
 import { AuthContext } from '../../../Provider/AuthProvider'
 import { RxCross1 } from "react-icons/rx";
-import useRole from '../../../hooks/useRole'
+import useProfile from '../../../hooks/useProfile'
 import { saveOrUpdateUser } from '../../../utils/Index'
 import LoadingSpinner from '../../../Components/LoadingSpinner/LoadingSpinner'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
 
 const Profile = () => {
   const { user, updateUser, setUser } = use(AuthContext)
-  const [role, isRoleLoading] = useRole()
+  const [profile, isProfileLoading] = useProfile()
   const [saving, setSaving] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const axiosSecure = useAxiosSecure()
 
   // Spinner while role loads
-  if (isRoleLoading) return <LoadingSpinner />
+  if (isProfileLoading) return <LoadingSpinner />
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -34,21 +36,19 @@ const Profile = () => {
       })
 
       // Update local user state (important for instant UI update)
-      setUser({
-        ...user,
-        displayName: name,
-        photoURL: photo,
-      })
+     setUser(()=> {
+      user.displayName = name
+      user.photoURL = photo
+      return user
+     })
 
       // Update database user info
       const userData = {
-        name,
-        email: user.email,
-        image: photo,
-        role,
+        name: name,
+        photoURL: photo,
       }
 
-      await saveOrUpdateUser(userData)
+      await saveOrUpdateUser(axiosSecure,userData)
 
       toast.success('Profile updated successfully')
       setIsModalOpen(false)
@@ -77,7 +77,7 @@ const Profile = () => {
           />
 
           <p className="px-4 py-1 text-xs text-white bg-teal-500 rounded-full">
-            {role}
+            {profile?.role}
           </p>
 
           <p className="mt-2 text-xl font-medium text-black">
