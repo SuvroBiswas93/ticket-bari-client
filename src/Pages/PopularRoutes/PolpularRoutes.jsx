@@ -1,6 +1,9 @@
 import React from "react";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 import PopularRouteCard from "./PopularRouteCard";
 
 const PopularRoutes = () => {
@@ -117,8 +120,8 @@ const PopularRoutes = () => {
     return (
         <div className="my-10 container mx-auto">
             <div className="text-center mb-10">
-                <h3 className="text-4xl font-bold my-4">Popular Routes</h3>
-                <p className="max-w-2xl mx-auto text-gray-600">
+                <h3 className="text-4xl font-bold my-4 text-slate-900 dark:text-white">Popular Routes</h3>
+                <p className="max-w-2xl mx-auto text-gray-600 dark:text-slate-400">
                     Choose from the most frequently booked & highly rated travel routes.
                 </p>
             </div>
@@ -141,7 +144,11 @@ const PopularRoutes = () => {
                     delay: 2500,
                     disableOnInteraction: false,
                 }}
-                pagination={true}
+                pagination={{
+                    clickable: true,
+                    bulletClass: "swiper-pagination-bullet dark:bg-slate-600",
+                    bulletActiveClass: "swiper-pagination-bullet-active dark:bg-teal-500",
+                }}
                 modules={[EffectCoverflow, Pagination, Autoplay]}
                 className="mySwiper"
             >
