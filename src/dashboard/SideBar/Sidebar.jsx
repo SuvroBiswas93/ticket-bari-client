@@ -1,4 +1,4 @@
-import { use, useState } from 'react'
+import { use } from 'react'
 import { Link } from 'react-router'
 import logo from '../../assets/ticket-bari.jpg'
 import { X, LogOut, Menu as MenuIcon } from 'lucide-react'
@@ -11,40 +11,31 @@ import MenuItem from '../Menu/MenuItem'
 import useProfile from '../../hooks/useProfile'
 
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, setIsOpen }) => {
   const { logOut } = use(AuthContext)
-  const [isActive, setActive] = useState(false)
   const [profile, isProfileLoading] = useProfile()
 
-  // Sidebar Responsive Handler
-  const handleToggle = () => {
-    setActive(!isActive)
+  // Close sidebar when clicking overlay
+  const handleOverlayClick = () => {
+    setIsOpen(false)
   }
 
   if (isProfileLoading) return <LoadingSpinner></LoadingSpinner>
 
   return (
     <>
-      {/* Mobile Menu Button - only visible on small screens */}
-      <button
-        onClick={handleToggle}
-        className='md:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition'
-      >
-        {isActive ? <X size={24} /> : <MenuIcon size={24} />}
-      </button>
-
-      {/* Sidebar Overlay for mobile */}
-      {!isActive && (
+      {/* Sidebar Overlay for mobile - only show when sidebar is open */}
+      {isOpen && (
         <div
           className='md:hidden fixed inset-0 bg-black/50 z-40'
-          onClick={handleToggle}
+          onClick={handleOverlayClick}
         />
       )}
 
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 flex flex-col z-40 transform transition-transform duration-300 ease-in-out ${
-          isActive ? '-translate-x-full' : 'translate-x-0'
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       >
         <div className='flex flex-col h-full'>

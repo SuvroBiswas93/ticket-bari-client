@@ -8,7 +8,7 @@ import { Menu, X, Moon, Sun, LogOut, User, Home, Ticket, LayoutDashboard } from 
 
 const MotionLink = motion(Link);
 
-const Navbar = () => {
+const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
     const { user, logOut } = use(AuthContext)
     const location = useLocation()
     console.log(location)
@@ -49,7 +49,18 @@ const Navbar = () => {
             <div className="h-full px-4 sm:px-6 lg:px-8 mx-auto flex items-center justify-between">
                 {/* Left section (Logo + Mobile Menu) */}
                 <div className="flex items-center gap-4">
-                    {/* Mobile menu button - only show when NOT in dashboard (sidebar handles mobile menu there) */}
+                    {/* Sidebar toggle button - only show in dashboard */}
+                    {isDashboard && setSidebarOpen && (
+                        <button
+                            onClick={() => setSidebarOpen(!sidebarOpen)}
+                            className="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                            aria-label="Toggle sidebar"
+                        >
+                            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    )}
+                    
+                    {/* Mobile menu button - only show when NOT in dashboard */}
                     {!isDashboard && (
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
