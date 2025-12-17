@@ -105,20 +105,20 @@ const MyAddedTickets = () => {
 
   // ------ UI ---------
   return (
-    <div className="p-6">
+    <div className="p-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
       <div className="mb-6">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
           My Added Tickets
         </h2>
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-slate-400">
           Manage and update your ticket listings
         </p>
       </div>
 
       {tickets.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No tickets added yet.</p>
-          <p className="text-gray-400 text-sm mt-2">Start by adding your first ticket!</p>
+          <p className="text-gray-500 dark:text-slate-400 text-lg">No tickets added yet.</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm mt-2">Start by adding your first ticket!</p>
         </div>
       ) : (
         <div className="space-y-20">
@@ -142,10 +142,10 @@ const MyAddedTickets = () => {
                   {rowTickets.map((ticket) => (
                     <div
                       key={ticket._id}
-              className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col group"
+              className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-700 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col group"
             >
               {/* Image Section */}
-              <div className="relative overflow-hidden bg-gray-50">
+              <div className="relative overflow-hidden bg-gray-50 dark:bg-slate-800">
                 <img
                   src={ticket.image}
                   alt={ticket.title}
@@ -168,20 +168,20 @@ const MyAddedTickets = () => {
               </div>
 
               {/* Content Section */}
-              <div className="p-6 flex-1 flex flex-col bg-linear-to-b from-white to-gray-50/50">
+              <div className="p-6 flex-1 flex flex-col bg-linear-to-b from-white to-gray-50/50 dark:from-slate-900 dark:to-slate-800/50">
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-700 mb-3 line-clamp-1">
+                <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-3 line-clamp-1">
                   {ticket.title}
                 </h3>
 
                 {/* Route Info */}
                 <div className="mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+                    <span className="text-sm font-medium text-gray-600 dark:text-slate-300 bg-gray-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-slate-700">
                       {ticket.from}
                     </span>
-                    <span className="text-gray-300 text-lg">→</span>
-                    <span className="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+                    <span className="text-gray-300 dark:text-slate-600 text-lg">→</span>
+                    <span className="text-sm font-medium text-gray-600 dark:text-slate-300 bg-gray-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-slate-700">
                       {ticket.to}
                     </span>
                   </div>
@@ -305,13 +305,13 @@ const MyAddedTickets = () => {
                 
                 {/* Perks */}
                 {ticket.perks?.length > 0 && (
-                  <div className="mb-4 pt-3 border-t border-gray-100">
-                    <span className="text-gray-400 text-xs block mb-2">Perks:</span>
+                  <div className="mb-4 pt-3 border-t border-gray-100 dark:border-slate-700">
+                    <span className="text-gray-400 dark:text-slate-300 text-xs font-semibold uppercase tracking-wide block mb-2">Perks:</span>
                     <div className="flex flex-wrap gap-1.5">
                       {ticket.perks.map((perk, idx) => (
                         <span
                           key={idx}
-                          className="text-xs bg-teal-50/70 text-teal-600 px-2.5 py-1 rounded-md border border-teal-100"
+                          className="text-xs font-medium bg-teal-50/70 dark:bg-teal-500/20 text-teal-600 dark:text-teal-300 px-2.5 py-1 rounded-md border border-teal-100 dark:border-teal-500/30"
                         >
                           {perk}
                         </span>
@@ -321,7 +321,7 @@ const MyAddedTickets = () => {
                 )}
 
                 {/* Action Buttons */}
-                <div className="mt-auto pt-4 border-t border-gray-100 flex gap-2.5">
+                <div className="mt-auto pt-4 border-t border-gray-100 dark:border-slate-700 flex gap-2.5">
                   <Link
                     to={`/Dashboard/update-ticket/${ticket._id}`}
                     className={`flex-1 text-center py-2.5 rounded-xl font-medium transition-all ${
