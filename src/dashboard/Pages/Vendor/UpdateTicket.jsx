@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -7,35 +7,46 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { imageUpload } from "../../../utils/Index";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
+import useProfile from "../../../hooks/useProfile";
 
 const UpdateTicket = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { user, loading } = useContext(AuthContext);
+  const { loading } = useContext(AuthContext);
+  const [profile, isProfileLoading] = useProfile();
+
+  const isFraud = useMemo(() => {
+    if (isProfileLoading) return false;
+    return profile?.isFraud || false;
+  }, [profile?.isFraud, isProfileLoading]);
+  
   const axiosSecure = useAxiosSecure();
 
   const [ticket, setTicket] = useState(null);
-  const [isFraud, setIsFraud] = useState(false);
+ 
 
   const { register, handleSubmit, reset } = useForm();
-
+  const transportTypes = ["Bus", "Train", "Plane", "Launch"];
   const perksOptions = ["AC", "Breakfast", "WiFi", "Meal"];
   const locations = ["Dhaka", "Chattogram", "Sylhet", "Rajshahi", "Khulna", "Barishal", "Mymensingh", "Rangpur", "Kolkata", "Delhi", "Singapore", "Dubai"];
 
   //  FETCH TICKET ----------
   useEffect(() => {
-    if (!user?.email) return;
+    if (isProfileLoading) return;
+    if(profile?.isFraud) return;
+    if(!profile?.email) return;
 
     const fetchTicket = async () => {
       try {
         const res = await axiosSecure.get(`/tickets/${id}`);
-        setTicket(res.data);
+        setTicket(res.data?.data);
 
         // Pre-fill form safely
         reset({
-          ...res.data,
-          departureTime: new Date(res.data.departureTime)
+          ...res.data?.data,
+          quantity: res.data?.data?.totalQuantity,
+          departureTime: new Date(res.data?.data?.departureTime)
             .toISOString()
             .slice(0, 16),
         });
@@ -46,24 +57,10 @@ const UpdateTicket = () => {
     };
 
     fetchTicket();
-  }, [axiosSecure, id, reset, user?.email]);
+  }, [axiosSecure, id, reset, profile, isProfileLoading]);
 
   // --------FETCH VENDOR FRAUD STATUS ----------
-  useEffect(() => {
-    if (!user?.email) return;
-
-    const fetchVendorStatus = async () => {
-      try {
-        const res = await axiosSecure.get(`/users/${user.email}`);
-        setIsFraud(res.data?.isFraud || false);
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to get vendor status");
-      }
-    };
-
-    fetchVendorStatus();
-  }, [axiosSecure, user?.email]);
+ 
 
 
   // ----------SUBMIT ----------
@@ -81,18 +78,16 @@ const UpdateTicket = () => {
       let imageUrl = ticket.image;
 
       // Upload new image if selected
-      if (data.image && data.image[0]) {
+      if (data.image && data.image[0] && data.image[0] instanceof File) {
         imageUrl = await imageUpload(data.image[0]);
       }
-
+      const {_id, ...rest} = data;
       const updatedTicket = {
-        ...data,
+        ...rest,
         image: imageUrl,
-        vendorName: ticket.vendorName,
-        vendorEmail: ticket.vendorEmail,
-        status: ticket.status, // keep status unchanged
       };
-
+      console.log(updatedTicket);
+      
       await axiosSecure.put(`/tickets/${id}`, updatedTicket);
       toast.success("Ticket updated successfully");
 
@@ -172,13 +167,23 @@ const UpdateTicket = () => {
 
         {/* Transport */}
         <div>
-          <label className="block font-medium">Transport Type</label>
-          <input
-            {...register("transportType", { required: true })}
-            className="w-full px-3 py-2 border rounded"
-            disabled={isDisabled}
-          />
-        </div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Transport Type
+            </label>
+            <select
+              {...register("transportType", {
+                required: "Transport type is required",
+              })}
+              className={`w-full px-4 py-3 border rounded-lg outline-none focus:ring-2`}
+            >
+              <option value={ticket.transportType}>{ticket.transportType}</option>
+              {transportTypes.filter((type) => type !== ticket.transportType).map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
 
         {/* Price & Quantity */}
         <div className="flex gap-4">
