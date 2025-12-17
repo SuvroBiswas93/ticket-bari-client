@@ -1,8 +1,9 @@
 import coverImg from '../../../assets/coverimage_ticket.avif'
 import { use, useState } from 'react'
 import { toast } from 'react-toastify'
+import Swal from 'sweetalert2'
 import { AuthContext } from '../../../Provider/AuthProvider'
-import { X, User, Mail, Edit2, Shield, Loader2 } from 'lucide-react'
+import { X, User, Mail, Edit2, Shield, Loader2, UserPlus } from 'lucide-react'
 import useProfile from '../../../hooks/useProfile'
 import { saveOrUpdateUser } from '../../../utils/Index'
 import LoadingSpinner from '../../../Components/LoadingSpinner/LoadingSpinner'
@@ -13,10 +14,69 @@ const Profile = () => {
   const [profile, isProfileLoading] = useProfile()
   const [saving, setSaving] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [registeringVendor, setRegisteringVendor] = useState(false);
   const axiosSecure = useAxiosSecure()
 
-  // Spinner while role loads
+
   if (isProfileLoading) return <LoadingSpinner />
+
+
+  const refetchProfile = async () => {
+    try {
+      const result = await axiosSecure.get('/auth/me');
+      return result.data?.data;
+    } catch (error) {
+      console.error('Failed to refetch profile', error);
+      return null;
+    }
+  };
+
+  const handleRegisterVendor = async () => {
+    if (!user?.email) {
+      toast.error('User email not found');
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Register as Vendor?',
+      text: 'This will convert your account to a vendor role. You will be able to add and manage tickets.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#14b8a6',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Yes, Register as Vendor',
+      cancelButtonText: 'Cancel',
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setRegisteringVendor(true);
+      const response = await axiosSecure.post('/auth/register-vendor');
+      await refetchProfile();
+      
+      Swal.fire({
+        title: 'Success!',
+        text: response.data?.message || 'Successfully registered as vendor',
+        icon: 'success',
+        confirmButtonColor: '#14b8a6',
+      });
+  
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.error('Failed to register vendor', error);
+      Swal.fire({
+        title: 'Error!',
+        text: error?.response?.data?.message || 'Failed to register as vendor',
+        icon: 'error',
+        confirmButtonColor: '#ef4444',
+      });
+    } finally {
+      setRegisteringVendor(false);
+    }
+  };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -29,20 +89,19 @@ const Profile = () => {
     try {
       setSaving(true)
 
-      //  Update Firebase Auth (via AuthProvider)
       await updateUser({
         displayName: name,
         photoURL: photo,
       })
 
-      // Update local user state (important for instant UI update)
+ 
      setUser(()=> {
       user.displayName = name
       user.photoURL = photo
       return user
      })
 
-      // Update database user info
+
       const userData = {
         name: name,
         photoURL: photo,
@@ -89,11 +148,32 @@ const Profile = () => {
             </div>
 
             {/* Role Badge */}
-            <div className="mb-3">
+            <div className="mb-3 flex flex-col items-center gap-3">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
                 <Shield size={14} />
                 {profile?.role?.charAt(0).toUpperCase() + profile?.role?.slice(1) || 'User'}
               </span>
+              
+              {/* User: Register as Vendor Button */}
+              {profile?.role === 'user' && (
+                <button
+                  onClick={handleRegisterVendor}
+                  disabled={registeringVendor}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {registeringVendor ? (
+                    <>
+                      <Loader2 className="animate-spin" size={16} />
+                      Registering...
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus size={16} />
+                      Register as Vendor
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
             {/* User Info Cards */}
