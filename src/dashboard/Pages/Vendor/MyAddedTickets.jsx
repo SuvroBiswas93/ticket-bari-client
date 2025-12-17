@@ -132,14 +132,14 @@ const MyAddedTickets = () => {
                 <div className="absolute top-3 right-3">
                   <span
                     className={`px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${
-                      ticket.status === "pending"
+                      ticket.verificationStatus === "pending"
                         ? "bg-amber-100/90 text-amber-700 border border-amber-200"
-                        : ticket.status === "approved"
+                        : ticket.verificationStatus === "approved"
                         ? "bg-emerald-100/90 text-emerald-700 border border-emerald-200"
                         : "bg-rose-100/90 text-rose-700 border border-rose-200"
                     }`}
                   >
-                    {ticket.status?.toUpperCase() || "PENDING"}
+                    {ticket.verificationStatus?.toUpperCase() || "PENDING"}
                   </span>
                 </div>
               </div>
@@ -206,12 +206,12 @@ const MyAddedTickets = () => {
                   <Link
                     to={`/Dashboard/update-ticket/${ticket._id}`}
                     className={`flex-1 text-center py-2.5 rounded-xl font-medium transition-all ${
-                      ticket.status === "rejected" || ticket.status === "approved"
+                      ticket.verificationStatus === "rejected" || ticket.verificationStatus === "approved"
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
                         : "bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 hover:border-blue-300"
                     }`}
                     onClick={(e) => {
-                      if (ticket.status === "rejected" || ticket.status === "approved") {
+                      if (ticket.verificationStatus === "rejected" || ticket.verificationStatus === "approved") {
                         e.preventDefault();
                       }
                     }}
@@ -221,9 +221,9 @@ const MyAddedTickets = () => {
 
                   <button
                     onClick={() => handleDelete(ticket._id)}
-                    disabled={ticket.status === "rejected" || ticket.status === "approved"}
+                    disabled={ticket.verificationStatus === "rejected" || ticket.verificationStatus === "approved"}
                     className={`flex-1 py-2.5 rounded-xl font-medium transition-all ${
-                      ticket.status === "rejected" || ticket.status === "approved"
+                      ticket.verificationStatus === "rejected" || ticket.verificationStatus === "approved"
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
                         : "bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 hover:border-rose-300"
                     }`}
