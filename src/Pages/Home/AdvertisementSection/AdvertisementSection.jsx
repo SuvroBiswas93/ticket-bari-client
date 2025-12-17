@@ -15,7 +15,7 @@ const AdvertisementSection = () => {
       try {
         const res = await axiosSecure.get("/tickets/advertised");
         // Assuming backend returns exactly 6 tickets max
-        setTickets(res.data);
+        setTickets(res.data?.data || []);
       } catch (error) {
         console.error("Failed to fetch advertised tickets:", error);
       } finally {

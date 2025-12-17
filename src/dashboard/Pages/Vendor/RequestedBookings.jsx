@@ -30,10 +30,15 @@ const isFraud = useMemo(() => {
 
   useEffect(() => {
     if (isProfileLoading) return;
-    if (profile?.isFraud) return;
-    if (!profile?.email) return;
-      fetchBookings();
-    }, [isProfileLoading, profile?.isFraud, profile?.email, fetchBookings]);
+    
+    // If fraud or no email, stop loading but don't fetch
+    if (profile?.isFraud || !profile?.email) {
+      setLoading(false);
+      return;
+    }
+    
+    fetchBookings();
+  }, [isProfileLoading, profile?.isFraud, profile?.email, fetchBookings]);
 
   const handleAction = async (id, status) => {
     if (isFraud) return toast.error('You are marked as Fraud Vendor. Cannot accept/reject bookings.');
@@ -52,16 +57,22 @@ const isFraud = useMemo(() => {
 
   if (isFraud) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 p-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-8 text-center">
-            <AlertCircle className="mx-auto text-red-500 mb-4" size={64} />
-            <h2 className="text-3xl font-bold text-red-600 dark:text-red-400 mb-4">
-              You are marked as Fraud Vendor
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg">
-              You cannot accept or reject bookings.
-            </p>
+      <div className="p-6">
+        <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
+          <div className="flex items-center">
+            <div className="shrink-0">
+              <svg className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.154 0 2.082-.785 2.082-1.75 0-.715-.435-1.333-1.011-1.614a3.5 3.5 0 01-1.805-.874A3.5 3.5 0 0012 8.5a3.5 3.5 0 00-2.482 1.022 3.5 3.5 0 01-1.805.874c-.576.281-1.011.899-1.011 1.614 0 .965.928 1.75 2.082 1.75z" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-xl font-bold text-red-800 mb-1">
+                Account Restricted
+              </h3>
+              <p className="text-red-700">
+                You are marked as a Fraud Vendor. You cannot accept or reject booking requests.
+              </p>
+            </div>
           </div>
         </div>
       </div>

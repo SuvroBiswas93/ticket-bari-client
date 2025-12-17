@@ -11,8 +11,8 @@ const LatestTicketsSection = () => {
   useEffect(() => {
     const fetchLatestTickets = async () => {
       try {
-        const res = await axiosSecure.get("/tickets/latest?limit=8");
-        setTickets(res.data);
+        const res = await axiosSecure.get("/tickets/latest");
+        setTickets(res.data?.data || []);
       } catch (error) {
         console.error("Failed to fetch latest tickets:", error);
       } finally {

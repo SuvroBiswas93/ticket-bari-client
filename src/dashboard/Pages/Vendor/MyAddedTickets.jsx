@@ -37,8 +37,13 @@ const MyAddedTickets = () => {
 
   useEffect(() => {
     if (isProfileLoading) return;
-    if (profile?.isFraud) return;
-    if(!profile?.email) return;
+    
+    // If fraud or no email, stop loading but don't fetch
+    if (profile?.isFraud || !profile?.email) {
+      setTicketsLoading(false);
+      return;
+    }
+    
     fetchTickets();
   }, [isProfileLoading, profile?.isFraud, profile?.email, fetchTickets]);
 
