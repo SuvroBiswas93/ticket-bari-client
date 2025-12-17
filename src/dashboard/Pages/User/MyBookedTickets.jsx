@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext, } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
@@ -46,14 +46,11 @@ const MyBookedTickets = () => {
     setProcessingPayment(booking._id);
     try {
       const paymentInfo = {
-        amount: booking.totalPrice,
         bookingId: booking._id,
-        userEmail: user.email,
-        ticketTitle: booking.ticketTitle,
       };
 
-      const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-      window.location.href = res.data.url;
+      const res = await axiosSecure.post("/payments/create-checkout-session", paymentInfo);
+      window.location.href = res.data?.data?.url;
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to initiate payment");
       setProcessingPayment(null);

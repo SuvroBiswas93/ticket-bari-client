@@ -188,14 +188,14 @@ export const router = createBrowserRouter([
         path:'payment/:bookingId',
         element:<Payment></Payment>
       },
-      {
-        path:'payment-success',
-        element:<PaymentSuccess></PaymentSuccess>
-      },
-      {
-        path:'Payment-cancelled',
-        element:<PaymentCancelled></PaymentCancelled>
-      }
     ]
+  },
+  {
+    path:'payment/success',
+    element:<PaymentSuccess></PaymentSuccess>
+  },
+  {
+    path:'payment/cancel',
+    element:<PaymentCancelled></PaymentCancelled>
   }
 ]);
