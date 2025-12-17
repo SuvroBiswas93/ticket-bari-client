@@ -60,8 +60,8 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center  py-6 px-4 ">
-            <div className="w-full max-w-5xl bg-white shadow-xl rounded-2xl overflow-hidden flex flex-col md:flex-row">
+        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-6 px-4">
+            <div className="w-full max-w-5xl bg-white dark:bg-slate-900 shadow-xl dark:shadow-slate-800/50 rounded-2xl overflow-hidden flex flex-col md:flex-row">
 
                 {/* Left Side Image */}
                 <div className="md:w-1/2 hidden md:block">
@@ -73,26 +73,26 @@ const Login = () => {
                 </div>
 
                 {/* Right Side Form */}
-                <div className="md:w-1/2 w-full p-8 sm:p-12 flex flex-col justify-center">
+                <div className="md:w-1/2 w-full p-8 sm:p-12 flex flex-col justify-center bg-white dark:bg-slate-900">
                     <div className="flex flex-col items-center mb-6">
                         <img src={logo} className="w-12 h-12 rounded-lg mb-2" />
-                        <h2 className="text-3xl font-bold text-teal-600">Welcome Back</h2>
-                        <p className="text-gray-600 text-lg">
-                            PLease Login to continue booking your tickets
+                        <h2 className="text-3xl font-bold text-teal-600 dark:text-teal-400">Welcome Back</h2>
+                        <p className="text-gray-600 dark:text-slate-400 text-lg">
+                            Please Login to continue booking your tickets
                         </p>
                     </div>
 
                     <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
                         {/* Email */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                                 Email Address
                             </label>
                             <input
                                 type="email"
                                 {...register('email', { required: true,minLength:6, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
                                 placeholder="Enter your email"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 outline-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
 
                             />
 
@@ -104,7 +104,7 @@ const Login = () => {
 
                         {/* Password */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                                 Password
                             </label>
                             <div className="relative">
@@ -114,7 +114,7 @@ const Login = () => {
                                      minLength: 6, 
                                      pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/ })}
                                     placeholder="Enter your password"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
+                                    className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 outline-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
 
                                 />
                                 {
@@ -132,7 +132,7 @@ const Login = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+                                    className="absolute right-3 top-3 text-gray-500 dark:text-slate-400 cursor-pointer hover:text-gray-700 dark:hover:text-slate-300"
                                 >
                                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                 </button>
@@ -145,7 +145,7 @@ const Login = () => {
                         <div className="text-right">
                             <Link
                                 to="/forgot-password"
-                                className="text-sm text-teal-600 hover:underline"
+                                className="text-sm text-teal-600 dark:text-teal-400 hover:underline"
                             >
                                 Forgot password?
                             </Link>
@@ -155,7 +155,7 @@ const Login = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 cursor-pointer"
+                            className="w-full bg-linear-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 cursor-pointer shadow-lg hover:shadow-xl"
                         >
                             {loading ? "Logging in..." : "Login"}
                         </button>
@@ -163,15 +163,15 @@ const Login = () => {
 
                     {/* Divider */}
                     <div className="flex items-center gap-3 my-6">
-                        <div className="flex-1 h-px bg-gray-300"></div>
-                        <span className="text-sm text-gray-500">or</span>
-                        <div className="flex-1 h-px bg-gray-300"></div>
+                        <div className="flex-1 h-px bg-gray-300 dark:bg-slate-700"></div>
+                        <span className="text-sm text-gray-500 dark:text-slate-400">or</span>
+                        <div className="flex-1 h-px bg-gray-300 dark:bg-slate-700"></div>
                     </div>
 
                     {/* Google Login */}
                     <button
                         onClick={handleGoogleLogin}
-                        className="w-full border border-gray-300 py-3 rounded-lg flex items-center justify-center gap-2 bg-white hover:bg-gray-100 transition cursor-pointer text-teal-600"
+                        className="w-full border border-gray-300 dark:border-slate-600 py-3 rounded-lg flex items-center justify-center gap-2 bg-white dark:bg-slate-900 hover:bg-gray-50 dark:hover:bg-slate-800 transition cursor-pointer text-teal-600 dark:text-teal-400"
                     >
                         <img
                             src="https://www.svgrepo.com/show/355037/google.svg"
@@ -182,11 +182,11 @@ const Login = () => {
                     </button>
 
                     {/* Register Link */}
-                    <p className="text-center text-gray-600 mt-6">
+                    <p className="text-center text-gray-600 dark:text-slate-400 mt-6">
                         Don't have an account?{" "}
                         <Link
                             to="/auth/register"
-                            className="text-teal-600 hover:underline font-semibold"
+                            className="text-teal-600 dark:text-teal-400 hover:underline font-semibold"
                         >
                             Register
                         </Link>

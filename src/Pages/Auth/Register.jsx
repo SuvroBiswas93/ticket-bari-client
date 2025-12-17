@@ -77,8 +77,8 @@ const Register = () => {
   // monngodb
 
   return (
-    <div className="min-h-screen flex items-center justify-center  p-4">
-      <div className="flex flex-col md:flex-row w-full max-w-5xl shadow-xl rounded-2xl overflow-hidden bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 p-4">
+      <div className="flex flex-col md:flex-row w-full max-w-5xl shadow-xl dark:shadow-slate-800/50 rounded-2xl overflow-hidden bg-white dark:bg-slate-900">
         {/* Left Side Banner */}
         <div className="hidden md:block md:w-1/2">
           <img
@@ -89,25 +89,25 @@ const Register = () => {
         </div>
 
         {/* Right Side Form */}
-        <div className="w-full md:w-1/2 p-8 sm:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold text-teal-600 mb-4 text-center">
+        <div className="w-full md:w-1/2 p-8 sm:p-12 flex flex-col justify-center bg-white dark:bg-slate-900">
+          <h2 className="text-3xl font-bold text-teal-600 dark:text-teal-400 mb-4 text-center">
             Create Your Account
           </h2>
-          <p className="text-gray-600 text-center mb-6">
+          <p className="text-gray-600 dark:text-slate-400 text-center mb-6">
             Join now and start booking your tickets in seconds!
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Full Name
               </label>
               <input
                 type="text"
                 placeholder="Enter your full name"
                 {...register("name", { required: true, minLength: 5 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 outline-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
               {errors.name?.type === "required" && (
                 <p className="text-red-500 text-xs mt-1">Name is required.</p>
@@ -121,14 +121,14 @@ const Register = () => {
 
             {/* Photo URL */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Photo URL
               </label>
               <input
                 type="text"
                 placeholder="Enter your photo URL"
                 {...register("photo", { required: true })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 outline-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
               {errors.photo && (
                 <p className="text-red-500 text-xs mt-1">Photo URL is required.</p>
@@ -137,7 +137,7 @@ const Register = () => {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Email Address
               </label>
               <input
@@ -147,7 +147,7 @@ const Register = () => {
                   required: true,
                   pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-black"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 outline-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
               {errors.email?.type === "required" && (
                 <p className="text-red-500 text-xs mt-1">Email is required.</p>
@@ -161,7 +161,7 @@ const Register = () => {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Password
               </label>
               <div className="relative">
@@ -172,12 +172,12 @@ const Register = () => {
                     required: true,
                     pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
                   })}
-                  className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 outline-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-500"
+                  className="absolute right-3 top-3 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -197,7 +197,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-linear-to-r from-teal-600 to-teal-500 cursor-pointer text-white py-3 rounded-lg font-semibold hover:from-teal-700 hover:to-teal-600 transition disabled:opacity-50"
+              className="w-full bg-linear-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 cursor-pointer text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 shadow-lg hover:shadow-xl"
             >
               {loading ? "Registering..." : "Register"}
             </button>
@@ -205,15 +205,15 @@ const Register = () => {
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-gray-300"></div>
-            <span className="text-sm text-gray-500">or</span>
-            <div className="flex-1 h-px bg-gray-300"></div>
+            <div className="flex-1 h-px bg-gray-300 dark:bg-slate-700"></div>
+            <span className="text-sm text-gray-500 dark:text-slate-400">or</span>
+            <div className="flex-1 h-px bg-gray-300 dark:bg-slate-700"></div>
           </div>
 
           {/* Google Login */}
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-2 border border-gray-300 cursor-pointer py-3 rounded-lg bg-white text-teal-600 hover:bg-gray-100 transition"
+            className="w-full flex items-center justify-center gap-2 border border-gray-300 dark:border-slate-600 cursor-pointer py-3 rounded-lg bg-white dark:bg-slate-900 text-teal-600 dark:text-teal-400 hover:bg-gray-50 dark:hover:bg-slate-800 transition"
           >
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
@@ -224,11 +224,11 @@ const Register = () => {
           </button>
 
           {/* Login Redirect */}
-          <p className="text-center text-gray-600 mt-6">
+          <p className="text-center text-gray-600 dark:text-slate-400 mt-6">
             Already have an account?{" "}
             <Link
               to="/auth/login"
-              className="text-teal-600 hover:text-teal-700 font-semibold"
+              className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-semibold"
             >
               Login
             </Link>
