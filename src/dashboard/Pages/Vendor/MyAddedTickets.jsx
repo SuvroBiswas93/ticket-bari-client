@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState, useContext, useMemo } from "re
 import { Link } from "react-router";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { Package, PackageCheck, AlertTriangle, Calendar, Bus, DollarSign } from "lucide-react";
 
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -120,10 +121,27 @@ const MyAddedTickets = () => {
           <p className="text-gray-400 text-sm mt-2">Start by adding your first ticket!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tickets.map((ticket) => (
-            <div
-              key={ticket._id}
+        <div className="space-y-20">
+          {Array.from({ length: Math.ceil(tickets.length / 3) }).map((_, rowIndex) => {
+            const rowTickets = tickets.slice(rowIndex * 3, rowIndex * 3 + 3);
+            return (
+              <React.Fragment key={rowIndex}>
+                {rowIndex > 0 && (
+                  <div className="relative -my-10">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t-2 border-slate-300 dark:border-slate-600"></div>
+                    </div>
+                    <div className="relative flex justify-center">
+                      <span className="bg-white dark:bg-slate-900 px-6 text-slate-400 dark:text-slate-500 text-lg">
+                        • • •
+                      </span>
+                    </div>
+                  </div>
+                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {rowTickets.map((ticket) => (
+                    <div
+                      key={ticket._id}
               className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col group"
             >
               {/* Image Section */}
@@ -169,42 +187,138 @@ const MyAddedTickets = () => {
                   </div>
                 </div>
 
-                {/* Details Grid */}
-                <div className="space-y-2.5 mb-4 flex-1">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Transport:</span>
-                    <span className="font-medium text-gray-600">{ticket.transportType}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Price:</span>
-                    <span className="font-semibold text-teal-500">${ticket.price}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Quantity:</span>
-                    <span className="font-medium text-gray-600">{ticket.quantity}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Departure:</span>
-                    <span className="font-medium text-gray-600 text-xs">
-                      {new Date(ticket.departureTime).toLocaleDateString()}
+                {/* Availability Status - Prominent Display */}
+                <div className="mb-4 p-4 rounded-xl border-2 border-slate-300 dark:border-slate-600 bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                      Availability Status
                     </span>
+                    {ticket.availableQuantity === 0 ? (
+                      <AlertTriangle className="text-red-500" size={16} />
+                    ) : ticket.availableQuantity <= 5 ? (
+                      <AlertTriangle className="text-amber-500" size={16} />
+                    ) : (
+                      <PackageCheck className="text-green-500" size={16} />
+                    )}
                   </div>
-                  {ticket.perks?.length > 0 && (
-                    <div className="pt-3 border-t border-gray-100">
-                      <span className="text-gray-400 text-xs block mb-2">Perks:</span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {ticket.perks.map((perk, idx) => (
-                          <span
-                            key={idx}
-                            className="text-xs bg-teal-50/70 text-teal-600 px-2.5 py-1 rounded-md border border-teal-100"
-                          >
-                            {perk}
-                          </span>
-                        ))}
+                  <div className="flex items-baseline gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Package className={`${
+                          ticket.availableQuantity === 0 
+                            ? "text-red-500" 
+                            : ticket.availableQuantity <= 5 
+                            ? "text-amber-500" 
+                            : "text-green-500"
+                        }`} size={18} />
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Available</span>
                       </div>
+                      <div className={`text-2xl font-bold ${
+                        ticket.availableQuantity === 0 
+                          ? "text-red-600 dark:text-red-400" 
+                          : ticket.availableQuantity <= 5 
+                          ? "text-amber-600 dark:text-amber-400" 
+                          : "text-green-600 dark:text-green-400"
+                      }`}>
+                        {ticket.availableQuantity || 0}
+                      </div>
+                    </div>
+                    <div className="text-right border-l border-slate-300 dark:border-slate-600 pl-3">
+                      <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total</div>
+                      <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">
+                        {ticket.totalQuantity || ticket.quantity || 0}
+                      </div>
+                    </div>
+                  </div>
+                  {ticket.availableQuantity === 0 && (
+                    <div className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded">
+                      Sold Out
+                    </div>
+                  )}
+                  {ticket.availableQuantity > 0 && ticket.availableQuantity <= 5 && (
+                    <div className="mt-2 text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded">
+                      Low Stock
                     </div>
                   )}
                 </div>
+
+                {/* Details Grid */}
+                <div className="grid grid-cols-1 gap-3 mb-4 flex-1">
+                  <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 border border-slate-200 dark:border-slate-700">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                          <Bus className="text-blue-600 dark:text-blue-400" size={16} />
+                        </div>
+                        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                          Transport
+                        </span>
+                      </div>
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                        {ticket.transportType}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 border border-slate-200 dark:border-slate-700">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
+                          <DollarSign className="text-teal-600 dark:text-teal-400" size={16} />
+                        </div>
+                        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                          Price
+                        </span>
+                      </div>
+                      <span className="text-base font-bold text-teal-600 dark:text-teal-400">
+                        ৳ {ticket.price?.toLocaleString() || ticket.price}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 border border-slate-200 dark:border-slate-700">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                          <Calendar className="text-purple-600 dark:text-purple-400" size={16} />
+                        </div>
+                        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                          Departure
+                        </span>
+                      </div>
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                        {new Date(ticket.departureTime).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}{" "}
+                        <span className="text-slate-600 dark:text-slate-400">
+                          {new Date(ticket.departureTime).toLocaleTimeString("en-US", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Perks */}
+                {ticket.perks?.length > 0 && (
+                  <div className="mb-4 pt-3 border-t border-gray-100">
+                    <span className="text-gray-400 text-xs block mb-2">Perks:</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {ticket.perks.map((perk, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs bg-teal-50/70 text-teal-600 px-2.5 py-1 rounded-md border border-teal-100"
+                        >
+                          {perk}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="mt-auto pt-4 border-t border-gray-100 flex gap-2.5">
@@ -237,8 +351,12 @@ const MyAddedTickets = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+                    </div>
+                  ))}
+                </div>
+              </React.Fragment>
+            );
+          })}
         </div>
       )}
     </div>
