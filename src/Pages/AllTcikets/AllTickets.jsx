@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Search, Filter, ArrowUpDown } from "lucide-react";
 import LoadingSpinner from "../../Components/LoadingSpinner/LoadingSpinner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -10,57 +10,61 @@ export default function AllTickets() {
 
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 6,
+    total: 0,
+    pages: 0
+  });
 
   const [searchRoute, setSearchRoute] = useState("");
   const debouncedSearchRoute = useDebounce(searchRoute, 500);
 
   const [transportType, setTransportType] = useState("");
-  const [sortBy, setSortBy] = useState("price");
+  const [sortBy, setSortBy] = useState("departure_asc");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetch Admin Approved Tickets
-
+  // Fetch Tickets with Server-Side Filtering, Sorting, and Pagination
   useEffect(() => {
     const fetchTickets = async () => {
+      setLoading(true);
       try {
-        const res = await axiosSecure.get("/tickets?status=approved");
-        setTickets(res.data);
+        const params = {
+          page: currentPage,
+          limit: 6,
+          sortBy: sortBy
+        };
+
+        // Add search parameter if provided
+        if (debouncedSearchRoute) {
+          params.search = debouncedSearchRoute;
+        }
+
+        // Add transportType filter if provided
+        if (transportType) {
+          params.transportType = transportType;
+        }
+
+        const res = await axiosSecure.get("/tickets", { params });
+        
+        // Handle response structure - backend returns { tickets, pagination }
+        setTickets(res.data?.tickets || res.data?.data || []);
+        setPagination(res.data?.pagination || {
+          page: currentPage,
+          limit: 6,
+          total: res.data?.tickets?.length || 0,
+          pages: 1
+        });
       } catch (err) {
-        console.error("Error fetching approved tickets:", err);
+        console.error("Error fetching tickets:", err);
+        setTickets([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchTickets();
-  }, [axiosSecure]);
-
- 
-  // Filter + Search + Sorting
- 
-  const filtered = useMemo(() => {
-    const result = tickets.filter((ticket) => {
-      const matchRoute =
-        `${ticket.from} ${ticket.to}`.toLowerCase().includes(debouncedSearchRoute.toLowerCase());
-
-      const matchType = transportType ? ticket.transportType === transportType : true;
-
-      return matchRoute && matchType;
-    });
-
-    if (sortBy === "price") result.sort((a, b) => a.price - b.price);
-    if (sortBy === "departure") result.sort((a, b) => new Date(a.departureTime) - new Date(b.departureTime));
-
-    return result;
-  }, [tickets, debouncedSearchRoute, transportType, sortBy]);
-
-  // Pagination
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(filtered.length / itemsPerPage);
-  const paginatedTickets = filtered.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  }, [axiosSecure, debouncedSearchRoute, transportType, sortBy, currentPage]);
 
   if (loading) return <LoadingSpinner/>
 
@@ -127,11 +131,16 @@ export default function AllTickets() {
                 <ArrowUpDown className="absolute left-3 top-3 text-slate-400" size={20} />
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={(e) => {
+                    setSortBy(e.target.value);
+                    setCurrentPage(1);
+                  }}
                   className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600 appearance-none"
                 >
-                  <option value="price">Price (Low to High)</option>
-                  <option value="departure">Departure Time</option>
+                  <option value="price_asc">Price (Low to High)</option>
+                  <option value="price_desc">Price (High to Low)</option>
+                  <option value="departure_asc">Departure Time (Earliest)</option>
+                  <option value="departure_desc">Departure Time (Latest)</option>
                 </select>
               </div>
             </div>
@@ -139,46 +148,48 @@ export default function AllTickets() {
         </div>
 
         {/* Tickets Grid */}
-        {paginatedTickets.length > 0 ? (
+        {tickets.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {paginatedTickets.map((ticket) => (
+              {tickets.map((ticket) => (
                 <TicketCard key={ticket._id} ticket={ticket} />
               ))}
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
-              >
-                Previous
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {pagination.pages > 1 && (
+              <div className="flex justify-center items-center gap-2">
                 <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-2 rounded-lg transition ${
-                    currentPage === page
-                      ? "bg-teal-600 text-white"
-                      : "border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
-                  }`}
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
                 >
-                  {page}
+                  Previous
                 </button>
-              ))}
 
-              <button
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
-              >
-                Next
-              </button>
-            </div>
+                {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-2 rounded-lg transition ${
+                      currentPage === page
+                        ? "bg-teal-600 text-white"
+                        : "border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => setCurrentPage(Math.min(pagination.pages, currentPage + 1))}
+                  disabled={currentPage === pagination.pages}
+                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 transition"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <div className="text-center py-12">
