@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { use, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -6,12 +6,13 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { imageUpload } from "../../../utils/Index";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
+import useProfile from "../../../hooks/useProfile";
 
 const AddTicket = () => {
   const { user } = use(AuthContext);
+  const [profile, isProfileLoading] = useProfile();
   const axiosSecure = useAxiosSecure();
-   const [isFraud, setIsFraud] = useState(false);
-   const [loading, setLoading] = useState(true);
+  const [isAdding, setIsAdding] = useState(false);
 
   const {
     register,
@@ -23,29 +24,19 @@ const AddTicket = () => {
   const locations = ["Dhaka","Chattogram","Sylhet","Rajshahi","Khulna","Barishal","Mymensingh","Rangpur","Kolkata","Delhi","Singapore","Dubai"];
   const transportTypes = ["Bus", "Train", "Plane", "Launch"];
 
-   // Check if vendor is fraud
-  useEffect(() => {
-    const checkFraudStatus = async () => {
-      try {
-        const res = await axiosSecure.get(`/users/${user?.email}`);
-        setIsFraud(res.data.isFraud || false);
-      } catch (err) {
-        console.error(err);
-        toast.error("Failed to fetch vendor info");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.email) checkFraudStatus();
-  }, [user?.email, axiosSecure]);
+  // Derive isFraud directly from profile instead of using state
+  const isFraud = useMemo(() => {
+    if (isProfileLoading) return false;
+    return profile?.isFraud || false;
+  }, [profile?.isFraud, isProfileLoading]);
 
 
   const onSubmit = async (data) => {
-     if (isFraud) {
+    if (isFraud) {
       return toast.error("You are marked as fraud! Cannot add tickets.");
     }
     try {
+      setIsAdding(true);
       // Upload image
       const imageFile = data.image[0];
       const imageUrl = await imageUpload(imageFile);
@@ -58,14 +49,10 @@ const AddTicket = () => {
         to: data.to,
         transportType: data.transportType,
         price: Number(data.price),
-        quantity: Number(data.quantity),
+        totalQuantity: Number(data.quantity),
         departureTime: data.departureTime,
         perks: data.perks || [],
         image: imageUrl,
-        vendorName: user?.displayName,
-        vendorEmail: user?.email,
-        status: "pending",
-        createdAt: new Date(),
       };
       // Save to database using secure axios
       await axiosSecure.post("/tickets", ticketData);
@@ -75,12 +62,15 @@ const AddTicket = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to add ticket");
+    } finally {
+       setIsAdding(false);
     }
   };
-if (loading) return <LoadingSpinner></LoadingSpinner>;
+
+  if (isProfileLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
-    <div className="min-h-screen flex items-center justify-center  px-4">
-      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-8 relative">
         <h2 className="text-2xl font-bold text-center text-teal-700 mb-6">
           Add Ticket
         </h2>
@@ -89,6 +79,13 @@ if (loading) return <LoadingSpinner></LoadingSpinner>;
           <p className="text-red-600 text-center mb-4 font-semibold">
             You are marked as fraud! You cannot add tickets.
           </p>
+        )}
+
+        {/* Loading Overlay */}
+        {isAdding && (
+          <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center z-50">
+            <LoadingSpinner smallHeight={true} />
+          </div>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -268,6 +265,7 @@ if (loading) return <LoadingSpinner></LoadingSpinner>;
               <input
                 value={user?.displayName || ""}
                 readOnly
+                disabled
                 className="w-full px-4 py-3 border rounded-lg bg-gray-100"
               />
             </div>
@@ -278,6 +276,7 @@ if (loading) return <LoadingSpinner></LoadingSpinner>;
               <input
                 value={user?.email || ""}
                 readOnly
+                disabled
                 className="w-full px-4 py-3 border rounded-lg bg-gray-100"
               />
             </div>
@@ -286,11 +285,11 @@ if (loading) return <LoadingSpinner></LoadingSpinner>;
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isFraud}
+            disabled={isFraud || isAdding}
             className={`w-full cursor-pointer py-3 rounded-lg font-semibold transition
-              ${isFraud ? "bg-gray-400 cursor-not-allowed" : "bg-teal-600 text-white hover:bg-teal-700"}`}
+              ${isFraud || isAdding ? "bg-gray-400 cursor-not-allowed" : "bg-teal-600 text-white hover:bg-teal-700"}`}
           >
-            Add Ticket
+            {isAdding ? "Adding..." : "Add Ticket"}
           </button>
         </form>
       </div>
