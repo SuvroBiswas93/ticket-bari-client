@@ -131,6 +131,7 @@ It demonstrates **secure authentication**, **role-based dashboards**, **admin mo
 - React Toastify
 - Lucide React / React Icons
 - React Spinners
+- React Fast Marquee
 
 ### Backend
 - Node.js
