@@ -46,7 +46,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
                 isDashboard ? 'md:left-64' : ''
             }`}
         >
-            <div className="h-full px-4 sm:px-6 lg:px-8 mx-auto flex items-center justify-between">
+            <div className="h-full px-4 sm:px-6 lg:px-8 container mx-auto flex items-center justify-between">
                 {/* Left section (Logo + Mobile Menu) */}
                 <div className="flex items-center gap-4">
                     {/* Sidebar toggle button - only show in dashboard */}
