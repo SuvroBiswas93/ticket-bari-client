@@ -24,8 +24,13 @@ export default function AllTickets() {
   const [sortBy, setSortBy] = useState("departure_asc");
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+
   // Fetch Tickets with Server-Side Filtering, Sorting, and Pagination
   useEffect(() => {
+    
     const fetchTickets = async () => {
       setLoading(true);
       try {
