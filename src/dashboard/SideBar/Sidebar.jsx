@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 flex flex-col z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-64 pt-12 md:pt-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 flex flex-col z-40 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       >
@@ -51,7 +51,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 <span className='text-xl font-bold bg-linear-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent block'>
                   TicketBari
                 </span>
-                <span className='text-xs text-slate-500 dark:text-slate-400'>
+                <span className='text-sm ml-1 text-slate-500 dark:text-slate-400'>
                   Dashboard
                 </span>
               </div>
