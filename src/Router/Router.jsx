@@ -57,7 +57,10 @@ export const router = createBrowserRouter([
       },
       {
         path:'/ticket/:id',
-        element:<TicketDetails></TicketDetails>
+        element:
+        <PrivateRoute>
+          <TicketDetails></TicketDetails>
+        </PrivateRoute>
       }
     ]
   },

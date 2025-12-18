@@ -64,20 +64,20 @@ const Login = () => {
             <div className="w-full max-w-5xl bg-white dark:bg-slate-900 shadow-xl dark:shadow-slate-800/50 rounded-2xl overflow-hidden flex flex-col md:flex-row">
 
                 {/* Left Side Image */}
-                <div className="md:w-1/2 hidden md:block">
+                <div className="md:w-1/2 hidden md:block ">
                     <img
                         src={banner}
                         alt="ticket booking"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover  "
                     />
                 </div>
 
                 {/* Right Side Form */}
                 <div className="md:w-1/2 w-full p-8 sm:p-12 flex flex-col justify-center bg-white dark:bg-slate-900">
                     <div className="flex flex-col items-center mb-6">
-                        <img src={logo} className="w-12 h-12 rounded-lg mb-2" />
-                        <h2 className="text-3xl font-bold text-teal-600 dark:text-teal-400">Welcome Back</h2>
-                        <p className="text-gray-600 dark:text-slate-400 text-lg">
+                        <img src={logo} className="w-12 h-12 rounded-lg mb-2 mt-5" />
+                        <h2 className="text-3xl font-bold text-teal-500 dark:text-teal-600">Welcome Back</h2>
+                        <p className="text-gray-600 dark:text-slate-400 text-lg text-center">
                             Please Login to continue booking your tickets
                         </p>
                     </div>
