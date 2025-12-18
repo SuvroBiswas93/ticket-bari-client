@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router'
+import { Outlet, ScrollRestoration } from 'react-router'
 import { useState } from 'react'
 import Sidebar from '../dashboard/SideBar/Sidebar'
 import Navbar from '../Components/Navbar'
@@ -16,11 +16,13 @@ const DashboardLayout = () => {
 
       {/* Right Side: Dashboard Dynamic Content */}
       <div className='md:ml-64'>
+        <ScrollRestoration></ScrollRestoration>
         {/* Navbar */}
         <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         
         {/* Main Content Area */}
         <main className='pt-16 min-h-screen'>
+          
           <Outlet />
         </main>
         

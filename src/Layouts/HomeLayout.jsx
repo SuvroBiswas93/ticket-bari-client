@@ -1,12 +1,13 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
-import { Outlet } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router';
 import Footer from '../Components/Footer';
 import { ToastContainer } from 'react-toastify';
 
 const HomeLayout = () => {
     return (
         <div className='min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950'>
+            <ScrollRestoration></ScrollRestoration>
             {/* Navbar */}
             <Navbar />
             

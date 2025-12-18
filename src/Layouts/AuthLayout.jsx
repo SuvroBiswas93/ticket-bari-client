@@ -1,12 +1,13 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
-import { Outlet } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 
 const AuthLayout = () => {
     return (
         <div className='min-h-screen flex flex-col '>
+            <ScrollRestoration></ScrollRestoration>
             <header >
 
                 <Navbar></Navbar>
