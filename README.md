@@ -117,6 +117,7 @@ It demonstrates **secure authentication**, **role-based dashboards**, **admin mo
 ### Frontend
 - React 19
 - Vite
+- React Router 
 - React Router DOM
 - Tailwind CSS
 - DaisyUI
