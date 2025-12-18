@@ -35,7 +35,7 @@ const features = [
 ];
 
 const FeatureCard = ({ feature }) => (
-  <div className="bg-teal-300 hover:bg-teal-400 p-6 rounded-xl shadow cursor-pointer h-[300px] w-[300px] flex flex-col justify-start items-center mx-2">
+  <div className="bg-teal-300 hover:bg-teal-400 p-6 rounded-xl shadow cursor-pointer h-[300px] w-[300px] flex flex-col justify-center items-center mx-2">
     <img src={feature.img} alt={feature.title} className="w-12 h-12 mb-4" />
     <h3 className="text-xl font-semibold mb-2 text-center">{feature.title}</h3>
     <p className="text-gray-600 text-center">{feature.desc}</p>
