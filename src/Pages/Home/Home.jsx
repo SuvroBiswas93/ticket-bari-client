@@ -4,6 +4,7 @@ import PopularRoutes from '../PopularRoutes/PolpularRoutes';
 import AdvertisementSection from './AdvertisementSection/AdvertisementSection';
 import LatestTicketsSection from './LatestTicketsSection/LatestTicketsSection';
 import WhyChooseUs from './WhyChooseUs/WhyChooseUs';
+import AboutUs from './AboutUs/AboutUs';
 
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
             <LatestTicketsSection></LatestTicketsSection>
             <PopularRoutes></PopularRoutes>
             <WhyChooseUs></WhyChooseUs>
+            <AboutUs />
         </div>
     );
 };

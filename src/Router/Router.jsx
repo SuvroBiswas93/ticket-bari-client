@@ -28,6 +28,8 @@ import TicketDetails from "../Pages/TicketDetails/TicketDetails";
 import AdvertisementSection from "../Pages/Home/AdvertisementSection/AdvertisementSection";
 import LatestTicketsSection from "../Pages/Home/LatestTicketsSection/LatestTicketsSection";
 import AllTickets from "../Pages/AllTcikets/AllTickets";
+import AboutUs from "../Pages/Home/AboutUs/AboutUs";
+import Contact from "../Components/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +44,14 @@ export const router = createBrowserRouter([
       {
         path: '/all-tickets',
         element: <AllTickets></AllTickets>
+      },
+      {
+        path:'/about-us',
+        element:<AboutUs />
+      },
+      {
+        path:'/contact',
+        element:<Contact />
       },
       {
         path: '/forgot-password',

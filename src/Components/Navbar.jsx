@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import logo from '../assets/ticket-bari.jpg'
 import { motion } from "framer-motion";
 import { AuthContext } from '../Provider/AuthProvider';
-import { Menu, X, Moon, Sun, LogOut, User, Home, Ticket, LayoutDashboard } from 'lucide-react';
+import { Menu, X, Moon, Sun, LogOut, User, Home, Ticket,FileUser,Contact,LayoutDashboard } from 'lucide-react';
 
 const MotionLink = motion(Link);
 
@@ -133,6 +133,36 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
                             </div>
                         </NavLink>
                     )}
+                    <NavLink
+                        to="/about-us"
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                isActive
+                                    ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            }`
+                        }
+                    >
+                        <div className="flex items-center gap-2">
+                            <FileUser  size={16} />
+                            About Us
+                        </div>
+                    </NavLink>
+                    <NavLink
+                        to="/contact"
+                        className={({ isActive }) =>
+                            `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                isActive
+                                    ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            }`
+                        }
+                    >
+                        <div className="flex items-center gap-2">
+                            < Contact  size={16} />
+                            Contact
+                        </div>
+                    </NavLink>
                 </div>
 
                 {/* Right section (User menu / Auth buttons) */}
@@ -267,6 +297,34 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
                                 Dashboard
                             </NavLink>
                         )}
+                         <NavLink
+                            to="/about-us"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-3 rounded-lg ${
+                                    isActive
+                                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`
+                            }
+                        >
+                            <FileUser size={20} />
+                            About Us
+                        </NavLink>
+                         <NavLink
+                            to="/contact"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-3 rounded-lg ${
+                                    isActive
+                                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`
+                            }
+                        >
+                            <Contact size={20} />
+                            Contact
+                        </NavLink>
                     </div>
                 </div>
             )}
