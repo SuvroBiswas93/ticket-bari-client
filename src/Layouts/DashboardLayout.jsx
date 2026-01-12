@@ -4,6 +4,7 @@ import Sidebar from '../dashboard/SideBar/Sidebar'
 import Navbar from '../Components/Navbar'
 import { ToastContainer } from 'react-toastify'
 import Profile from '../dashboard/Pages/Common/Profile'
+import FloatingCTA from '../Components/CTA/FloatingCTA'
 
 
 const DashboardLayout = () => {
@@ -25,6 +26,7 @@ const DashboardLayout = () => {
           
           <Outlet />
         </main>
+        <FloatingCTA />
         
         <ToastContainer position="top-right" autoClose={3000} />
       </div>

@@ -26,6 +26,7 @@ export default function AllTickets() {
 
   useEffect(()=>{
     window.scrollTo(0,0)
+    console.log('call or not?')
   },[])
 
   // Fetch Tickets with Server-Side Filtering, Sorting, and Pagination

@@ -3,6 +3,7 @@ import Navbar from '../Components/Navbar';
 import { Outlet, ScrollRestoration } from 'react-router';
 import Footer from '../Components/Footer';
 import { ToastContainer } from 'react-toastify';
+import FloatingCTA from '../Components/CTA/FloatingCTA';
 
 const HomeLayout = () => {
     return (
@@ -20,6 +21,7 @@ const HomeLayout = () => {
             <footer>
                 <Footer />
             </footer>
+            <FloatingCTA />
             
             <ToastContainer position="top-right" autoClose={3000} />
         </div>

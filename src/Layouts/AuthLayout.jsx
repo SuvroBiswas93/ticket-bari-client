@@ -3,6 +3,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import { Outlet, ScrollRestoration } from 'react-router';
 import { ToastContainer } from 'react-toastify';
+import FloatingCTA from '../Components/CTA/FloatingCTA';
 
 const AuthLayout = () => {
     return (
@@ -19,6 +20,7 @@ const AuthLayout = () => {
             <footer >
                 <Footer></Footer>
             </footer>
+            <FloatingCTA />
             <ToastContainer position="top-right" autoClose={3000}></ToastContainer>
         </div>
     );
