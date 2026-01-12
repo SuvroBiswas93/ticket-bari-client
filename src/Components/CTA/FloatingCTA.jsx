@@ -56,7 +56,7 @@ const FloatingCTA = () => {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="relative cursor-pointer w-14 h-14 rounded-full bg-linear-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center text-white shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="relative cursor-pointer w-14 h-14 rounded-full bg-linear-to-br from-teal-500 via-teal-600 to-teal-700 flex items-center justify-center text-white shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               <motion.div
                 animate={{ y: [-2, 2, -2] }}
